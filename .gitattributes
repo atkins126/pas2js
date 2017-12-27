@@ -1,4 +1,6 @@
 * text=auto !eol
+/Makefile svneol=native#text/plain
+/Makefile.fpc svneol=native#text/plain
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
@@ -92,6 +94,7 @@ demo/rtl/demouncaughtexception.pas svneol=native#text/plain
 demo/rtl/demoxhr.html -text
 demo/rtl/demoxhr.lpi svneol=native#text/plain
 demo/rtl/demoxhr.lpr svneol=native#text/plain
+/fpmake.pp svneol=native#text/plain
 packages/fcl-base/browserapp.pas svneol=native#text/plain
 packages/fcl-base/custapp.pas svneol=native#text/plain
 packages/fcl-base/fcl_base_pas2js.lpk -text
