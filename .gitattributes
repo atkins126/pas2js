@@ -82,6 +82,8 @@ demo/rtl/demorouter.lpi svneol=native#text/plain
 demo/rtl/demorouter.pas svneol=native#text/plain
 demo/rtl/demortti.lpi svneol=native#text/plain
 demo/rtl/demortti.pas svneol=native#text/plain
+demo/rtl/demostringlist.html -text
+demo/rtl/demostringlist.lpi svneol=native#text/plain
 demo/rtl/demostringlist.pas svneol=native#text/plain
 demo/rtl/demouncaughtexception.html -text
 demo/rtl/demouncaughtexception.lpi svneol=native#text/plain
