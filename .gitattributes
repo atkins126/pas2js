@@ -62,6 +62,7 @@ demo/rtl/democlasstopas.pas svneol=native#text/plain
 demo/rtl/democollection.html -text
 demo/rtl/democollection.lpi svneol=native#text/plain
 demo/rtl/democollection.pas svneol=native#text/plain
+demo/rtl/democomponents.html -text
 demo/rtl/democomponents.lpi svneol=native#text/plain
 demo/rtl/democomponents.lpr svneol=native#text/plain
 demo/rtl/demodatetime.lpi svneol=native#text/plain
