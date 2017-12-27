@@ -1,0 +1,40 @@
+[submodule "compiler/fcl-js"]
+	path = compiler/fcl-js
+	owner = compiler
+	url = ../../../../fpc/trunk/packages/fcl-js
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "compiler/fcl-json"]
+	path = compiler/fcl-json
+	owner = compiler
+	url = ../../../../fpc/trunk/packages/fcl-json
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "compiler/fcl-passrc"]
+	path = compiler/fcl-passrc
+	owner = compiler
+	url = ../../../../fpc/trunk/packages/fcl-passrc
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "compiler/pas2js"]
+	path = compiler/pas2js
+	owner = compiler
+	url = ../../../../fpc/trunk/utils/pas2js
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
+[submodule "compiler/pastojs"]
+	path = compiler/pastojs
+	owner = compiler
+	url = ../../../../fpc/trunk/packages/pastojs
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
