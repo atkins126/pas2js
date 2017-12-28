@@ -137,3 +137,4 @@ packages/rtl/sysutils.pas svneol=native#text/plain
 packages/rtl/types.pas svneol=native#text/plain
 packages/rtl/typinfo.pas svneol=native#text/plain
 packages/rtl/web.pas svneol=native#text/plain
+utils/createconfig.pp svneol=native#text/plain
