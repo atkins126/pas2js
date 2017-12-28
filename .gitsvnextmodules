@@ -1,39 +1,39 @@
-[submodule "compiler/fcl-js"]
-	path = compiler/fcl-js
-	owner = compiler
-	url = ../../../../fpc/trunk/packages/fcl-js
+[submodule "compiler/packages/fcl-js"]
+	path = compiler/packages/fcl-js
+	owner = compiler/packages
+	url = ../../../../../fpc/trunk/packages/fcl-js
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "compiler/fcl-json"]
-	path = compiler/fcl-json
-	owner = compiler
-	url = ../../../../fpc/trunk/packages/fcl-json
+[submodule "compiler/packages/fcl-json"]
+	path = compiler/packages/fcl-json
+	owner = compiler/packages
+	url = ../../../../../fpc/trunk/packages/fcl-json
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "compiler/fcl-passrc"]
-	path = compiler/fcl-passrc
-	owner = compiler
-	url = ../../../../fpc/trunk/packages/fcl-passrc
+[submodule "compiler/packages/fcl-passrc"]
+	path = compiler/packages/fcl-passrc
+	owner = compiler/packages
+	url = ../../../../../fpc/trunk/packages/fcl-passrc
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "compiler/pas2js"]
-	path = compiler/pas2js
-	owner = compiler
-	url = ../../../../fpc/trunk/utils/pas2js
+[submodule "compiler/packages/pastojs"]
+	path = compiler/packages/pastojs
+	owner = compiler/packages
+	url = ../../../../../fpc/trunk/packages/pastojs
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
-[submodule "compiler/pastojs"]
-	path = compiler/pastojs
-	owner = compiler
-	url = ../../../../fpc/trunk/packages/pastojs
+[submodule "compiler/utils/pas2js"]
+	path = compiler/utils/pas2js
+	owner = compiler/utils
+	url = ../../../../../fpc/trunk/utils/pas2js
 	branch = /
 	fetch = :refs/remotes/git-svn
 	remote = svn
