@@ -102,6 +102,7 @@ packages/fcl-base/fcl_base_pas2js.pas svneol=native#text/plain
 packages/fcl-base/nodejsapp.pas svneol=native#text/plain
 packages/fcl-db/db.pas svneol=native#text/plain
 packages/fcl-db/dbconst.pas svneol=native#text/plain
+packages/fcl-db/extjsdataset.pas svneol=native#text/plain
 packages/fcl-db/jsondataset.pas svneol=native#text/plain
 packages/fcl-db/pas2js_fcldb.lpk -text
 packages/fcl-db/pas2js_fcldb.pas svneol=native#text/plain
