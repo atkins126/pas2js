@@ -45,6 +45,16 @@ demo/jquery/demoaddclass.html -text
 demo/jquery/demoaddclass.pas svneol=native#text/plain
 demo/jquery/demoaddclass2.html -text
 demo/jquery/demoaddclass2.pas svneol=native#text/plain
+demo/router/README.md -text
+demo/router/demorouter.html -text
+demo/router/demorouter.lpi svneol=native#text/plain
+demo/router/demorouter.pas svneol=native#text/plain
+demo/router/demorouter2.html -text
+demo/router/demorouter2.lpi svneol=native#text/plain
+demo/router/demorouter2.pas svneol=native#text/plain
+demo/router/frmdemo.pp svneol=native#text/plain
+demo/router/histsrv.js -text
+demo/router/histsrv2.js -text
 demo/rtl/README.md -text
 demo/rtl/ajax.pas svneol=native#text/plain
 demo/rtl/countries.json -text
