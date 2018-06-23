@@ -1,6 +1,7 @@
 * text=auto !eol
 /Makefile svneol=native#text/plain
 /Makefile.fpc svneol=native#text/plain
+compiler/packages/compat/pascodegen.pp svneol=native#text/plain
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
