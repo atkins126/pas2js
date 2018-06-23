@@ -30,6 +30,14 @@
 	fetch = :refs/remotes/git-svn
 	remote = svn
 	type = dir
+[submodule "compiler/packages/webidl"]
+	path = compiler/packages/webidl
+	owner = compiler/packages
+	url = ../../../../../fpc/trunk/packages/webidl
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir
 [submodule "compiler/utils/pas2js"]
 	path = compiler/utils/pas2js
 	owner = compiler/utils
