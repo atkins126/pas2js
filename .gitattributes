@@ -201,6 +201,7 @@ packages/rtl/rtti.pas svneol=native#text/plain
 packages/rtl/strutils.pas svneol=native#text/plain
 packages/rtl/system.pas svneol=native#text/plain
 packages/rtl/sysutils.pas svneol=native#text/plain
+packages/rtl/timer.pas svneol=native#text/plain
 packages/rtl/types.pas svneol=native#text/plain
 packages/rtl/typinfo.pas svneol=native#text/plain
 packages/rtl/web.pas svneol=native#text/plain
