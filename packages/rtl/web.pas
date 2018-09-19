@@ -1187,7 +1187,6 @@ Type
   private
     FDirection: string; external name 'direction';
     FKey: JSValue; external name 'key';
-    FValue : JSValue; external name 'value';
     FPrimaryKey: JSValue; external name 'primaryKey';
     FSource: JSValue; external name 'source';
     FSourceAsIndex: TJSIDBIndex; external name 'source';
@@ -1205,7 +1204,6 @@ Type
     property sourceAsStore : TJSIDBObjectStore read FSourceAsStore;
     property sourceAsIndex : TJSIDBIndex read FSourceAsIndex;
     property key : JSValue read FKey;
-    Property Value : JSValue Read FValue;
     property primaryKey : JSValue read FPrimaryKey;
     property direction : string read FDirection;
   end;
