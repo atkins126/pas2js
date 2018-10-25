@@ -183,6 +183,7 @@ packages/fpcunit/htmltestreport.pp svneol=native#text/plain
 packages/fpcunit/plaintestreport.pas svneol=native#text/plain
 packages/fpcunit/testdecorator.pas svneol=native#text/plain
 packages/fpcunit/testregistry.pas svneol=native#text/plain
+packages/nodejs/nodejsfs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
 packages/rtl/browserconsole.pas svneol=native#text/plain
 packages/rtl/class2pas.pas svneol=native#text/plain
