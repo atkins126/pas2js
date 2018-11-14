@@ -1187,7 +1187,6 @@ Type
   private
     FDirection: string; external name 'direction';
     FKey: JSValue; external name 'key';
-    FValue : JSValue; external name 'value';
     FPrimaryKey: JSValue; external name 'primaryKey';
     FSource: JSValue; external name 'source';
     FSourceAsIndex: TJSIDBIndex; external name 'source';
@@ -1205,7 +1204,6 @@ Type
     property sourceAsStore : TJSIDBObjectStore read FSourceAsStore;
     property sourceAsIndex : TJSIDBIndex read FSourceAsIndex;
     property key : JSValue read FKey;
-    Property Value : JSValue Read FValue;
     property primaryKey : JSValue read FPrimaryKey;
     property direction : string read FDirection;
   end;
@@ -1562,24 +1560,7 @@ Type
 
   TJSPerformance = class external name 'Performance' (TJSObject);
 
-  TJSScreen = class external name 'Screen' (TJSObject)
-  private
-    FavailHeight: Integer; external name 'availHeight';
-    FavailWidth: Integer; external name 'availWidth';
-    FcolorDepth: Integer; external name 'colorDepth';
-    FPixelDepth: Integer; external name 'pixelDepth';
-    Fheight: Integer; external name 'height';
-    Fwidth: Integer; external name 'width';
-  public
-  { Properties declarations }
-    property availHeight: Integer read FavailHeight;
-    property availWidth: Integer read FavailWidth;
-    property colorDepth: Integer read FcolorDepth;
-    property pixelDepth: Integer read FPixelDepth;
-    property height: Integer read Fheight;
-    property width: Integer read Fwidth;
-  end;
-
+  TJSScreen = class external name 'Screen' (TJSObject);
 
   TJSURL = class external name 'URL' (TJSObject);
   

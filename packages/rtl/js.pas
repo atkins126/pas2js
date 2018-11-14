@@ -244,7 +244,6 @@ type
     function match(aRegexp : TJSRegexp) : TStringDynArray; overload;
     function match(aRegexp : String) : TStringDynArray;overload;
     {$IFDEF ECMAScript6}
-    function normalize : string;
     function normalize(aForm : string) : string;
     {$ENDIF}
     function _repeat(aCount : NativeInt) : Integer; external name 'repeat';
@@ -688,21 +687,15 @@ type
 
   { TJSError }
 
-  TJSError = Class external name 'Error'
+  TJSError = CLass external name 'Error'
   private
     FMessage: String; external name 'message';
-    {$ifdef NodeJS}
-    FStack: JSValue; external name 'stack';
-    {$endif}
   Public
     Constructor new;
     Constructor new(Const aMessage : string);
     Constructor new(Const aMessage,aFileName : string);
     Constructor new(Const aMessage,aFileName : string; aLineNumber : NativeInt);
     Property Message : String Read FMessage;
-    {$ifdef NodeJS}
-    Property Stack: JSValue read FStack;
-    {$endif}
   end;
 
 

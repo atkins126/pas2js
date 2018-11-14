@@ -26,23 +26,9 @@ type
   // Observer has changed, is freed, item added to/deleted from list, custom event.
   TFPObservedOperation = (ooChange,ooFree,ooAddItem,ooDeleteItem,ooCustom);
 
-  EStreamError = class(Exception);
-  EFCreateError = class(EStreamError);
-  EFOpenError = class(EStreamError);
-  EFilerError = class(EStreamError);
-  EReadError = class(EFilerError);
-  EWriteError = class(EFilerError);
-  EClassNotFound = class(EFilerError);
-  EMethodNotFound = class(EFilerError);
-  EInvalidImage = class(EFilerError);
-  EResNotFound = class(Exception);
   EListError = class(Exception);
-  EBitsError = class(Exception);
   EStringListError = class(EListError);
   EComponentError = class(Exception);
-  EParserError = class(Exception);
-  EOutOfResources = class(EOutOfMemory);
-  EInvalidOperation = class(Exception);
 
   TListAssignOp = (laCopy, laAnd, laOr, laXor, laSrcUnique, laDestUnique);
   TListSortCompare = function(Item1, Item2: JSValue): Integer;
@@ -1554,6 +1540,26 @@ end;
 // Also, it is not clear at this point what exactly should be done.
 
 { //!! is used to mark unsupported things. }
+
+(*
+Function QuoteString (Const S : String; Const Quote : String) : String;
+Var
+  I,J : Integer;
+begin
+  J:=0;
+  Result:=S;
+  for i:=1 to length(s) do
+   begin
+     inc(j);
+     if S[i]=Quote then
+      begin
+        Insert(Quote,Result,J);
+        inc(j);
+      end;
+   end;
+  Result:=Quote+Result+Quote;
+end;
+*)
 
 {
   For compatibility we can't add a Constructor to TSTrings to initialize
