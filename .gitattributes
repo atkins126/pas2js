@@ -129,6 +129,10 @@ demo/rtl/demouncaughtexception.pas svneol=native#text/plain
 demo/rtl/demoxhr.html -text
 demo/rtl/demoxhr.lpi svneol=native#text/plain
 demo/rtl/demoxhr.lpr svneol=native#text/plain
+demo/webcompiler/demowebcompiler.lpi svneol=native#text/plain
+demo/webcompiler/demowebcompiler.lpr svneol=native#text/plain
+demo/webcompiler/run.html -text
+demo/webcompiler/webcompiler.html -text
 demo/webgl/GLTypes.pas svneol=native#text/plain
 demo/webgl/GLUtils.pas svneol=native#text/plain
 demo/webgl/Mat4.pas svneol=native#text/plain
