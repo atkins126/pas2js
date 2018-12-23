@@ -2,6 +2,12 @@
 /Makefile svneol=native#text/plain
 /Makefile.fpc svneol=native#text/plain
 compiler/packages/compat/pascodegen.pp svneol=native#text/plain
+demo/dataabstract/DataAbstract.js -text
+demo/dataabstract/DataAbstract4_intf.js -text
+demo/dataabstract/RemObjectsSDK.js -text
+demo/dataabstract/sampleda.html -text
+demo/dataabstract/sampleda.lpi svneol=native#text/plain
+demo/dataabstract/sampleda.lpr svneol=native#text/plain
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
@@ -164,6 +170,10 @@ demo/webgl/project1.lpi svneol=native#text/plain
 demo/webgl/project1.lpr svneol=native#text/plain
 demo/webgl/webgl2.pas svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
+packages/dataabstract/da.pas svneol=native#text/plain
+packages/dataabstract/dadataset.pas svneol=native#text/plain
+packages/dataabstract/dasdk.pas svneol=native#text/plain
+packages/dataabstract/rosdk.pas svneol=native#text/plain
 packages/fcl-base/browserapp.pas svneol=native#text/plain
 packages/fcl-base/custapp.pas svneol=native#text/plain
 packages/fcl-base/fcl_base_pas2js.lpk -text
