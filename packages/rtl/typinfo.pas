@@ -56,10 +56,6 @@ type
     );
   TTypeKinds = set of TTypeKind;
 
-  // for compatibility with Delphi/FPC, ignored under pas2js
-  TCallConv = (ccReg, ccCdecl, ccPascal, ccStdCall, ccSafeCall, ccCppdecl,
-    ccFar16, ccOldFPCCall, ccInternProc, ccSysCall, ccSoftFloat, ccMWPascal);
-
 const
   tkFloat = tkDouble; // for compatibility with Delphi/FPC
   tkProcedure = tkProcVar; // for compatibility with Delphi
@@ -76,8 +72,6 @@ type
     Kind: TTypeKind external name 'kind';
   end;
   TTypeInfoClassOf = class of TTypeInfo;
-
-  PTypeInfo = Pointer; // for compatibility with Delphi/FPC, under pas2js it is a TTypeInfo
 
   TOrdType  = (
     otSByte,      // 0
