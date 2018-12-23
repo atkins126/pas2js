@@ -163,9 +163,6 @@ demo/webgl/html/res/cube.obj -text
 demo/webgl/html/res/dragon.obj -text
 demo/webgl/html/res/ground.jpg -text svneol=unset#image/jpeg
 demo/webgl/html/res/spacestars.jpg -text svneol=unset#image/jpeg
-demo/webgl/js/Pas2JS_WebGL.compiled -text
-demo/webgl/js/Pas2JS_WebGL_Minimal.compiled -text
-demo/webgl/js/Pas2JS_WebGL_Terrain.compiled -text
 demo/webgl/project1.lpi svneol=native#text/plain
 demo/webgl/project1.lpr svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
