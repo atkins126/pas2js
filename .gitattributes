@@ -139,36 +139,6 @@ demo/webcompiler/demowebcompiler.lpi svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpr svneol=native#text/plain
 demo/webcompiler/run.html -text
 demo/webcompiler/webcompiler.html -text
-demo/webgl/GLTypes.pas svneol=native#text/plain
-demo/webgl/GLUtils.pas svneol=native#text/plain
-demo/webgl/Mat4.pas svneol=native#text/plain
-demo/webgl/Matrix.pas svneol=native#text/plain
-demo/webgl/MemoryBuffer.pas svneol=native#text/plain
-demo/webgl/Noise.pas svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL.lpi svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL.pas svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_Minimal.lpi svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_Minimal.pas svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_OBJ.lpi svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_OBJ.pas svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_Terrain.lpi svneol=native#text/plain
-demo/webgl/Pas2JS_WebGL_Terrain.pas svneol=native#text/plain
-demo/webgl/README.txt svneol=native#text/plain
-demo/webgl/Terrain.pas svneol=native#text/plain
-demo/webgl/html/Pas2JS_WebGL.html svneol=native#text/plain
-demo/webgl/html/Pas2JS_WebGL_Minimal.html svneol=native#text/plain
-demo/webgl/html/Pas2JS_WebGL_OBJ.html svneol=native#text/plain
-demo/webgl/html/Pas2JS_WebGL_Terrain.html svneol=native#text/plain
-demo/webgl/html/res/cube.obj -text
-demo/webgl/html/res/dragon.obj -text
-demo/webgl/html/res/ground.jpg -text svneol=unset#image/jpeg
-demo/webgl/html/res/spacestars.jpg -text svneol=unset#image/jpeg
-demo/webgl/js/Pas2JS_WebGL.compiled -text
-demo/webgl/js/Pas2JS_WebGL_Minimal.compiled -text
-demo/webgl/js/Pas2JS_WebGL_Terrain.compiled -text
-demo/webgl/project1.lpi svneol=native#text/plain
-demo/webgl/project1.lpr svneol=native#text/plain
-demo/webgl/webgl2.pas svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
 packages/dataabstract/da.pas svneol=native#text/plain
 packages/dataabstract/dadataset.pas svneol=native#text/plain
