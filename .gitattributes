@@ -168,7 +168,6 @@ demo/webgl/js/Pas2JS_WebGL_Minimal.compiled -text
 demo/webgl/js/Pas2JS_WebGL_Terrain.compiled -text
 demo/webgl/project1.lpi svneol=native#text/plain
 demo/webgl/project1.lpr svneol=native#text/plain
-demo/webgl/webgl2.pas svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
 packages/dataabstract/da.pas svneol=native#text/plain
 packages/dataabstract/dadataset.pas svneol=native#text/plain
