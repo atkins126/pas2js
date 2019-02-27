@@ -1084,7 +1084,6 @@ type
     FBeforeScroll: TDataSetNotifyEvent;
     FBlobFieldCount: Longint;
     FBuffers : TBuffers;
-    // The actual length of FBuffers is FBufferCount+1
     FBufferCount: Longint;
     FConstraints: TCheckConstraints;
     FDisableControlsCount : Integer;
@@ -1120,6 +1119,7 @@ type
     Procedure DoInsertAppend(DoAppend : Boolean);
     Procedure DoInternalOpen;
     Function  GetBuffer (Index : longint) : TDataRecord;
+    function GetBufferCount: Longint;
     function GetDataProxy: TDataProxy;
     Procedure RegisterDataSource(ADataSource : TDataSource);
     procedure SetConstraints(Value: TCheckConstraints);
@@ -1247,7 +1247,7 @@ type
     property CurrentRecord: Longint read FCurrentRecord;
     property BlobFieldCount: Longint read FBlobFieldCount;
     property Buffers[Index: Longint]: TDataRecord read GetBuffer;
-    property BufferCount: Longint read FBufferCount;
+    property BufferCount: Longint read GetBufferCount;
     property CalcBuffer: TDataRecord read FCalcBuffer;
     property CalcFieldsCount: Longint read FCalcFieldsCount;
     property InternalCalcFields: Boolean read FInternalCalcFields;
@@ -2776,6 +2776,11 @@ begin
   Result:=FBuffers[Index];
 end;
 
+function TDataSet.GetBufferCount: Longint;
+begin
+  Result:=Length(FBuffers);
+end;
+
 function TDataSet.DoGetDataProxy: TDataProxy;
 
 begin
@@ -3631,13 +3636,12 @@ begin
   If Value=FBufferCount Then
     exit;
   // Less buffers, shift buffers.
-  if value>FBufferCount then
+  if value>BufferCount then
     begin
-    SetLength(FBuffers,Value+1); // FBuffers[FBufferCount] is used as a temp buffer
     For I:=FBufferCount to Value do
       FBuffers[i]:=AllocRecordBuffer;
     end
-  else if value<FBufferCount then
+  else if value<BufferCount then
     if (value>=0) and (FActiveRecord>Value-1) then
       begin
       for i := 0 to (FActiveRecord-Value) do
@@ -4846,7 +4850,7 @@ begin
   TempBuf := FBuffers[0];
   For I:=1 to FBufferCount do
     FBuffers[I-1]:=FBuffers[i];
-  FBuffers[FBufferCount]:=TempBuf;
+  FBuffers[BufferCount]:=TempBuf;
 end;
 
 procedure TDataSet.ShiftBuffersForward;
