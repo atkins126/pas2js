@@ -132,6 +132,10 @@ demo/promise/story3.lpi svneol=native#text/plain
 demo/promise/story3.lpr svneol=native#text/plain
 demo/promise/styles.css -text
 demo/promise/utils.pp svneol=native#text/plain
+demo/restbridge/simple/README.txt svneol=native#text/plain
+demo/restbridge/simple/restbridge.html -text
+demo/restbridge/simple/restbridgeclient.lpi svneol=native#text/plain
+demo/restbridge/simple/restbridgeclient.lpr svneol=native#text/plain
 demo/router/README.md -text
 demo/router/demorouter.html -text
 demo/router/demorouter.lpi svneol=native#text/plain
@@ -240,6 +244,7 @@ packages/fcl-db/jsondataset.pas svneol=native#text/plain
 packages/fcl-db/pas2js_fcldb.lpk -text
 packages/fcl-db/pas2js_fcldb.pas svneol=native#text/plain
 packages/fcl-db/restconnection.pas svneol=native#text/plain
+packages/fcl-db/sqldbrestdataset.pp svneol=native#text/plain
 packages/fpcunit/browsertestrunner.pas svneol=native#text/plain
 packages/fpcunit/consoletestrunner.pas svneol=native#text/plain
 packages/fpcunit/fpcunit.css -text
