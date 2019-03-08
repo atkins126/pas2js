@@ -1,19 +1,3 @@
-{
-    This file is part of the Free Pascal run time library.
-    Copyright (c) 2019 by Michael Van Canneyt, member of the
-    Free Pascal development team
-
-    Simple REST connection component for use with Datasets.
-
-    See the file COPYING.FPC, included in this distribution,
-    for details about the copyright.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
- **********************************************************************}
-
 unit RestConnection;
 
 {$mode objfpc}
@@ -38,10 +22,9 @@ Type
     FPageParam: String;
     function GetDataProxy: TDataProxy;
   Protected
-    Procedure SetupRequest(aXHR : TJSXMLHttpRequest); virtual;
-    Function GetUpdateBaseURL(aRequest: TRecordUpdateDescriptor) : String; virtual;
-    Function GetReadBaseURL(aRequest: TDataRequest) : String; virtual;
-    Function GetPageURL(aRequest : TDataRequest) : String; virtual;
+    Function GetUpdateBaseURL : String; virtual;
+    Function GetReadBaseURL : String; virtual;
+    Function GetPageURL(aRequest : TDataRequest) : String;
     Function GetRecordUpdateURL(aRequest : TRecordUpdateDescriptor) : String;
   Public
     Function DoGetDataProxy : TDataProxy; virtual;
@@ -146,17 +129,12 @@ begin
   Result:=FDataProxy;
 end;
 
-procedure TRESTConnection.SetupRequest(aXHR: TJSXMLHttpRequest);
-begin
-  // Do nothing
-end;
-
-function TRESTConnection.GetUpdateBaseURL(aRequest: TRecordUpdateDescriptor): String;
+function TRESTConnection.GetUpdateBaseURL: String;
 begin
   Result:=BaseURL;
 end;
 
-function TRESTConnection.GetReadBaseURL(aRequest: TDataRequest): String;
+function TRESTConnection.GetReadBaseURL: String;
 begin
   Result:=BaseURL;
 end;
@@ -167,7 +145,7 @@ Var
   URL : String;
 
 begin
-  URL:=GetReadBaseURL(aRequest);
+  URL:=GetReadBaseURL;
   if (PageParam<>'') then
     begin
     if Pos('?',URL)<>0 then
@@ -190,7 +168,7 @@ Var
 begin
   KeyField:='';
   Result:='';
-  Base:=GetUpdateBaseURL(aRequest);
+  Base:=GetUpdateBaseURL;
   if aRequest.Status in [usModified,usDeleted] then
     begin
     I:=aRequest.Dataset.Fields.Count-1;
@@ -308,7 +286,6 @@ begin
     else
       begin
       R.FXHR.open('GET',URL,true);
-      Connection.SetupRequest(R.FXHR);
       R.FXHR.send;
       Result:=True;
       end;
