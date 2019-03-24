@@ -264,8 +264,8 @@ const
   // The below values are the safe limits, within every step exists.
   // Since currency is a double it can take much larger values, but the result
   // may differ from Delphi/FPC
-  MaxCurrency: Currency =  900719925474.0991; // fpc: 922337203685477.5807;
-  MinCurrency: Currency = -900719925474.0991; // fpc: -922337203685477.5808;
+  MaxCurrency: Currency =  450359962737.0495; // fpc: 922337203685477.5807;
+  MinCurrency: Currency = -450359962737.0496; // fpc: -922337203685477.5808;
 
 Type
   TFloatFormat = (ffFixed,ffGeneral,ffExponent,ffNumber,ffCurrency);
@@ -464,7 +464,6 @@ type
     procedure SetTimePMString(const Value: string);
     procedure SetTimeSeparator(const Value: char);
   public
-    class constructor Init;
     Property ShortMonthNames : TMonthNames Read GetShortMonthNames Write SetShortMonthNames;
     Property LongMonthNames : TMonthNames Read GetLongMonthNames Write SetLongMonthNames;
     Property ShortDayNames : TDayNames Read GetShortDayNames Write SetShortDayNames;
@@ -4159,11 +4158,6 @@ begin
   SysUtils.TimeSeparator := Value;
 end;
 
-class constructor TFormatSettings.Init;
-begin
-  FormatSettings := TFormatSettings.Create;
-end;
-
 { ---------------------------------------------------------------------
   FileNames
   ---------------------------------------------------------------------}
@@ -4421,6 +4415,10 @@ begin
   end else
     Result := '';
 end;
+
+
+initialization
+  FormatSettings := TFormatSettings.Create;
 
 end.
 
