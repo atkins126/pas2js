@@ -3,6 +3,7 @@
 /Makefile.fpc svneol=native#text/plain
 /README.txt svneol=native#text/plain
 compiler/packages/compat/pascodegen.pp svneol=native#text/plain
+demo/Makefile svneol=native#text/plain
 demo/chartjs/demoarea.html -text
 demo/chartjs/demoarea.lpi svneol=native#text/plain
 demo/chartjs/demoarea.lpr svneol=native#text/plain
