@@ -62,6 +62,13 @@ demo/dataabstract/RemObjectsSDK.js -text
 demo/dataabstract/sampleda.html -text
 demo/dataabstract/sampleda.lpi svneol=native#text/plain
 demo/dataabstract/sampleda.lpr svneol=native#text/plain
+demo/dynload/FormFactory.pas svneol=native#text/plain
+demo/dynload/MyFormDep.pas svneol=native#text/plain
+demo/dynload/myform.pp svneol=native#text/plain
+demo/dynload/myformdep2.pp svneol=native#text/plain
+demo/dynload/testloader.html -text
+demo/dynload/testloader.lpi svneol=native#text/plain
+demo/dynload/testloader.lpr svneol=native#text/plain
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
@@ -260,6 +267,8 @@ packages/fpcunit/testregistry.pas svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/nodejsfs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
+packages/rtl/Rtl.ScriptLoader.pas svneol=native#text/plain
+packages/rtl/Rtl.UnitLoader.pas svneol=native#text/plain
 packages/rtl/browserconsole.pas svneol=native#text/plain
 packages/rtl/class2pas.pas svneol=native#text/plain
 packages/rtl/classes.pas svneol=native#text/plain
