@@ -5,7 +5,7 @@ unit frmdemo;
 interface
 
 uses
-  sysutils, classes, web, webrouter;
+  sysutils, classes, js, web, webrouter;
 
 Type
 
