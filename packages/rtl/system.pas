@@ -50,13 +50,6 @@ const
                                Base types
 *****************************************************************************}
 type
-  Int8 = ShortInt;
-  UInt8 = Byte;
-  Int16 = SmallInt;
-  UInt16 = Word;
-  Int32 = Longint;
-  UInt32 = LongWord;
-
   Integer = LongInt;
   Cardinal = LongWord;
   DWord = LongWord;
@@ -66,7 +59,6 @@ type
   PtrUInt = NativeUInt;
   ValSInt = NativeInt;
   ValUInt = NativeUInt;
-  CodePointer = Pointer;
   ValReal = Double;
   Real = type Double;
   Extended = type Double;
@@ -74,7 +66,6 @@ type
   TDateTime = type double;
   TTime = type TDateTime;
   TDate = type TDateTime;
-
 
   Int64 = type NativeInt unimplemented; // only 53 bits at runtime
   UInt64 = type NativeUInt unimplemented; // only 52 bits at runtime
@@ -104,18 +95,10 @@ type
   end;
   TGUIDString = type string;
 
-  PMethod = ^TMethod;
-  TMethod = record
-    Code : CodePointer;
-    Data : Pointer;
-  end;
-
   TClass = class of TObject;
 
   { TObject }
 
-  {$DispatchField Msg} // enable checking message methods for record field name "Msg"
-  {$DispatchStrField MsgStr}
   TObject = class
   private
     class var FClassName: String; external name '$classname';
@@ -142,12 +125,6 @@ type
     procedure AfterConstruction; virtual;
     procedure BeforeDestruction; virtual;
 
-    // message handling routines
-    procedure Dispatch(var aMessage); virtual;
-    procedure DispatchStr(var aMessage); virtual;
-    procedure DefaultHandler(var aMessage); virtual;
-    procedure DefaultHandlerStr(var aMessage); virtual;
-
     function GetInterface(const iid: TGuid; out obj): boolean;
     function GetInterface(const iidstr: String; out obj): boolean; inline;
     function GetInterfaceByStr(const iidstr: String; out obj): boolean;
@@ -156,12 +133,6 @@ type
     function Equals(Obj: TObject): boolean; virtual;
     function ToString: String; virtual;
   end;
-
-  { TCustomAttribute - base class of all user defined attributes. }
-
-  TCustomAttribute = class
-  end;
-  TCustomAttributeArray = array of TCustomAttribute;
 
 const
   { IInterface }
@@ -417,9 +388,7 @@ type
 var
   JSArguments: TJSArguments; external name 'arguments';
 
-function isNumber(const v: JSValue): boolean; external name 'rtl.isNumber';
-function isObject(const v: JSValue): boolean; external name 'rtl.isObject'; // true if not null and a JS Object
-function isString(const v: JSValue): boolean; external name 'rtl.isString';
+// function parseInt(s: String; Radix: NativeInt): NativeInt; external name 'parseInt'; // may result NaN
 function isNaN(i: JSValue): boolean; external name 'isNaN'; // may result NaN
 
 // needed by ClassNameIs, the real SameText is in SysUtils
@@ -848,66 +817,6 @@ end;
 procedure TObject.BeforeDestruction;
 begin
 
-end;
-
-procedure TObject.Dispatch(var aMessage);
-// aMessage is a record with an integer field 'Msg'
-var
-  aClass: TClass;
-  Msg: TJSObj absolute aMessage;
-  Id: jsvalue;
-begin
-  if not isObject(Msg) then exit;
-  Id:=Msg['Msg'];
-  if not isNumber(Id) then exit;
-  aClass:=ClassType;
-  while aClass<>nil do
-    begin
-    asm
-      var Handlers = aClass.$msgint;
-      if (rtl.isObject(Handlers) && Handlers.hasOwnProperty(Id)){
-        this[Handlers[Id]](aMessage);
-        return;
-      }
-    end;
-    aClass:=aClass.ClassParent;
-    end;
-  DefaultHandler(aMessage);
-end;
-
-procedure TObject.DispatchStr(var aMessage);
-// aMessage is a record with a string field 'MsgStr'
-var
-  aClass: TClass;
-  Msg: TJSObj absolute aMessage;
-  Id: jsvalue;
-begin
-  if not isObject(Msg) then exit;
-  Id:=Msg['MsgStr'];
-  if not isString(Id) then exit;
-  aClass:=ClassType;
-  while aClass<>nil do
-    begin
-    asm
-      var Handlers = aClass.$msgstr;
-      if (rtl.isObject(Handlers) && Handlers.hasOwnProperty(Id)){
-        this[Handlers[Id]](aMessage);
-        return;
-      }
-    end;
-    aClass:=aClass.ClassParent;
-    end;
-  DefaultHandlerStr(aMessage);
-end;
-
-procedure TObject.DefaultHandler(var aMessage);
-begin
-  if jsvalue(aMessage) then ;
-end;
-
-procedure TObject.DefaultHandlerStr(var aMessage);
-begin
-  if jsvalue(aMessage) then ;
 end;
 
 function TObject.GetInterface(const iid: TGuid; out obj): boolean;

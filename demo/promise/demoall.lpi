@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <ProjectOptions BuildModesCount="1">
-    <Version Value="12"/>
+  <ProjectOptions>
+    <Version Value="11"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
         <Runnable Value="False"/>
-        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
       <Title Value="demoall"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <CustomData Count="2">
+    <CustomData Count="4">
       <Item0 Name="MaintainHTML" Value="1"/>
-      <Item1 Name="PasJSWebBrowserProject" Value="1"/>
+      <Item1 Name="PasJSHTMLFile" Value="project1.html"/>
+      <Item2 Name="PasJSPort" Value="0"/>
+      <Item3 Name="PasJSWebBrowserProject" Value="1"/>
     </CustomData>
-    <BuildModes>
+    <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
     <PublishOptions>
@@ -29,6 +31,11 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
+    <RequiredPackages Count="1">
+      <Item1>
+        <PackageName Value="pas2js_rtl"/>
+      </Item1>
+    </RequiredPackages>
     <Units Count="2">
       <Unit0>
         <Filename Value="demoall.lpr"/>
@@ -49,26 +56,14 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="js"/>
     </SearchPaths>
-    <Parsing>
-      <SyntaxOptions>
-        <AllowLabel Value="False"/>
-        <UseAnsiStrings Value="False"/>
-      </SyntaxOptions>
-    </Parsing>
-    <Linking>
-      <Debugging>
-        <GenerateDebugInfo Value="False"/>
-      </Debugging>
-    </Linking>
     <Other>
-      <CustomOptions Value="-Jc -Jirtl.js -Jminclude"/>
-      <CompilerPath Value="$(pas2js)"/>
       <ExecuteBefore>
         <Command Value="&quot;$MakeExe(IDE,pas2js)&quot; -Jirtl.js -Jc -Jminclude -Tbrowser &quot;-Fu$(ProjUnitPath)&quot; $Name($(ProjFile))"/>
         <ScanForFPCMsgs Value="True"/>
-        <CompileReasons Compile="False" Build="False" Run="False"/>
+        <ScanForMakeMsgs Value="True"/>
       </ExecuteBefore>
     </Other>
+    <CompileReasons Compile="False" Build="False" Run="False"/>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

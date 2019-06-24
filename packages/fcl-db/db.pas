@@ -1002,7 +1002,7 @@ type
   TUpdateAction = (uaFail, uaAbort, uaSkip, uaRetry, uaApplied);
   TUpdateKind = (ukModify, ukInsert, ukDelete);
 
-  TLocateOption = (loCaseInsensitive, loPartialKey, loFromCurrent);
+  TLocateOption = (loCaseInsensitive, loPartialKey);
   TLocateOptions = set of TLocateOption;
   TDataOperation = procedure of object;
 
@@ -1293,10 +1293,10 @@ type
     procedure Append;
     procedure AppendRecord(const Values: array of jsValue);
     function BookmarkValid(ABookmark{%H-}: TBookmark): Boolean; virtual;
-    function ConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException : Boolean) : TDateTime; virtual;
-    function ConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; virtual;
-    Class function DefaultConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException{%H-} : Boolean) : TDateTime; virtual;
-    Class function DefaultConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; virtual;
+    function ConvertToDateTime(aValue : JSValue; ARaiseException : Boolean) : TDateTime; virtual;
+    function ConvertDateTimeToNative(aValue : TDateTime) : JSValue; virtual;
+    Class function DefaultConvertToDateTime(aValue : JSValue; ARaiseException{%H-} : Boolean) : TDateTime; virtual;
+    Class function DefaultConvertDateTimeToNative(aValue : TDateTime) : JSValue; virtual;
     Function BlobDataToBytes(aValue : JSValue) : TBytes; virtual;
     Class Function DefaultBlobDataToBytes(aValue : JSValue) : TBytes; virtual;
     Function BytesToBlobData(aValue : TBytes) : JSValue ; virtual;
@@ -3867,12 +3867,12 @@ end;
 
 
 
-function TDataSet.ConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
+function TDataSet.ConvertToDateTime(aValue: JSValue; ARaiseException: Boolean): TDateTime;
 begin
-  Result:=DefaultConvertToDateTime(aField,aValue,ARaiseException);
+  Result:=DefaultConvertToDateTime(aValue,ARaiseException);
 end;
 
-class function TDataSet.DefaultConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
+class function TDataSet.DefaultConvertToDateTime(aValue: JSValue; ARaiseException: Boolean): TDateTime;
 begin
   Result:=0;
   if IsString(aValue) then
@@ -3884,13 +3884,13 @@ begin
     Result:=TDateTime(AValue)
 end;
 
-function TDataSet.ConvertDateTimeToNative(aField: TField; aValue : TDateTime) : JSValue;
+function TDataSet.ConvertDateTimeToNative(aValue : TDateTime) : JSValue;
 
 begin
-  Result:=DefaultConvertDateTimeToNative(aField, aValue);
+  Result:=DefaultConvertDateTimeToNative(aValue);
 end;
 
-Class function TDataSet.DefaultConvertDateTimeToNative(aField : TField;aValue : TDateTime) : JSValue;
+Class function TDataSet.DefaultConvertDateTimeToNative(aValue : TDateTime) : JSValue;
 
 begin
   Result:=DateTimeToRFC3339(aValue);
@@ -6735,20 +6735,18 @@ end;
 
 function TDateTimeField.ConvertToDateTime(aValue: JSValue; aRaiseError: Boolean): TDateTime;
 begin
-  if JS.isNull(aValue) then
-    Result:=0
-  else if Assigned(Dataset) then
-    Result:=Dataset.ConvertToDateTime(Self,aValue,aRaiseError)
+  if Assigned(Dataset) then
+    Result:=Dataset.ConvertToDateTime(aValue,aRaiseError)
   else
-    Result:=TDataset.DefaultConvertToDateTime(Self,aValue,aRaiseError);
+    Result:=TDataset.DefaultConvertToDateTime(aValue,aRaiseError);
 end;
 
 function TDateTimeField.DateTimeToNativeDateTime(aValue: TDateTime): JSValue;
 begin
   if Assigned(Dataset) then
-    Result:=Dataset.ConvertDateTimeToNative(Self,aValue)
+    Result:=Dataset.ConvertDateTimeToNative(aValue)
   else
-    Result:=TDataset.DefaultConvertDateTimeToNative(Self,aValue);
+    Result:=TDataset.DefaultConvertDateTimeToNative(aValue);
 end;
 
 function TDateTimeField.GetAsDateTime: TDateTime;
@@ -7109,9 +7107,9 @@ Var
 begin
   V:=GetData;
   if Assigned(Dataset) then
-    Result:=Dataset.ConvertToDateTime(Self,V,True)
+    Result:=Dataset.ConvertToDateTime(V,True)
   else
-    Result:=TDataset.DefaultConvertToDateTime(Self,V,True)
+    Result:=TDataset.DefaultConvertToDateTime(V,True)
 end;
 
 function TVariantField.GetAsFloat: Double;

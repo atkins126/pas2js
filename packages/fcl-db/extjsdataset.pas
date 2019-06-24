@@ -80,7 +80,6 @@ type
     property OnFilterRecord;
     property OnNewRecord;
     property OnPostError;
-    Property OwnsData;
   end;
 
   { TExtJSJSONObjectDataSet }

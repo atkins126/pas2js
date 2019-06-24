@@ -172,7 +172,6 @@ type
   protected
     Function GetCount: Integer; virtual;
     Procedure CreateIndex; Virtual; abstract;
-    Procedure ClearIndex;
     Property List : TJSArray Read FList;
     Property Rows : TJSArray Read FRows;
     Property Dataset : TBaseJSONDataset Read FDataset;
@@ -235,7 +234,6 @@ type
   Private
     FIndex : TSortedJSONIndex;
   Protected
-    Procedure ClearIndex;
     Property Index : TSortedJSONIndex Read FIndex Write FIndex;
   Public
     Procedure BuildIndex(aDataset : TBaseJSONDataset);
@@ -284,8 +282,6 @@ type
     procedure SetRows(AValue: TJSArray);
     procedure SetRowType(AValue: TJSONRowType);
   protected
-    procedure ActivateIndex(Build : Boolean);
-    function ConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; override;
     // Determine filter value type based on field type
     function FieldTypeToExpressionType(aDataType: TFieldType): TResultType; virtual;
     // Callback for IsNull filter function.
@@ -439,18 +435,11 @@ uses DateUtils;
 
 { TJSONIndexDef }
 
-procedure TJSONIndexDef.ClearIndex;
-begin
-  FreeAndNil(FIndex);
-end;
-
 procedure TJSONIndexDef.BuildIndex(aDataset : TBaseJSONDataset);
 
 begin
   if Findex=Nil then
-    FIndex:=TSortedJSONIndex.Create(aDataset,aDataset.Rows)
-  else
-    FIndex.ClearIndex;
+    FIndex:=TSortedJSONIndex.Create(aDataset,aDataset.Rows);
   FIndex.CreateComparer(Self);
   FIndex.CreateIndex;
 end;
@@ -654,7 +643,7 @@ var
 
 begin
   D1:=Dataset.ConvertDateTimeField(String(GetFieldValue(Rowindex)),Self.Field);
-  D2:=Dataset.ConvertDateTimeField(String(aValue),Self.Field);
+  D2:=TDateTime(aValue);
   Result:=Round(D1-D2);
 end;
 
@@ -962,11 +951,6 @@ begin
   Result:=FList.Length;
 end;
 
-procedure TJSONIndex.ClearIndex;
-begin
-  FList.Length:=0;
-end;
-
 function TJSONIndex.GetRecordIndex(aListIndex : Integer): NativeInt;
 begin
   if isUndefined(FList[aListIndex]) then
@@ -1046,35 +1030,32 @@ end;
 
 procedure TBaseJSONDataSet.SetActiveIndex(AValue: String);
 
-
-begin
-  if FActiveIndex=AValue then Exit;
-  FActiveIndex:=AValue;
-  if (csLoading in ComponentState) then
-    exit;
-  ActivateIndex(Active);
-end;
-
-procedure TBaseJSONDataSet.ActivateIndex(Build : Boolean);
-
 Var
   Idx : TJSONIndexDef;
 
 begin
-  if (FActiveIndex<>'') then
-    Idx:=FIndexes.Find(FActiveIndex) as TJSONIndexDef
-  else
-    Idx:=nil;
-  if Idx=Nil then
-    FCurrentIndex:=FDefaultIndex
+  if FActiveIndex=AValue then Exit;
+  if (csLoading in ComponentState) then
+    FActiveIndex:=AValue
   else
     begin
-    if (Idx.Index=Nil) and Build then
-      Idx.BuildIndex(Self);
-    FCurrentIndex:=Idx.Index;
+    if (AValue<>'') then
+      Idx:=FIndexes.Find(aValue) as TJSONIndexDef
+    else
+      Idx:=nil;
+    FActiveIndex:=AValue;
+    if Not (csLoading in ComponentState) then
+    if Idx=Nil then
+      FCurrentIndex:=FDefaultIndex
+    else
+      begin
+      if Idx.Index=Nil then
+        Idx.BuildIndex(Self);
+      FCurrentIndex:=Idx.Index;
+      end;
+    if Active then
+      Resync([rmCenter]);
     end;
-  if Active then
-    Resync([rmCenter]);
 end;
 
 procedure TBaseJSONDataSet.AddToRows(AValue: TJSArray);
@@ -1102,14 +1083,6 @@ begin
   if FRowType=AValue then Exit;
   CheckInactive;
   FRowType:=AValue;
-end;
-
-function TBaseJSONDataSet.ConvertDateTimeToNative(aField : TField; aValue: TDateTime): JSValue;
-begin
-  if jsISNan(aValue) then
-    Result:=Null
-  else
-    Result:=FormatDateTimeField(aValue,aField)
 end;
 
 
@@ -1165,19 +1138,16 @@ begin
 end;
 
 procedure TBaseJSONDataSet.FreeData;
-
-Var
- I : integer;
-
 begin
   If FOwnsData then
     begin
     FRows:=Nil;
     FMetaData:=Nil;
     end;
-  For I:=0 to FIndexes.Count-1 do
-    FIndexes[i].ClearIndex;
-  FCurrentIndex:=Nil;
+  if (FCurrentIndex<>FDefaultIndex) then
+    FreeAndNil(FCurrentIndex)
+  else
+    FCurrentIndex:=Nil;
   FreeAndNil(FDefaultindex);
   FreeAndNil(FFieldMapper);
   FCurrentIndex:=Nil;
@@ -1188,8 +1158,6 @@ procedure TBaseJSONDataSet.AppendToIndexes;
 
 begin
   FDefaultIndex.AppendToIndex;
-  if Assigned(FCurrentIndex) and (FCurrentIndex<>FDefaultIndex) then
-    FCurrentIndex.AppendToIndex;
 end;
 
 procedure TBaseJSONDataSet.CreateIndexes;
@@ -1197,8 +1165,7 @@ procedure TBaseJSONDataSet.CreateIndexes;
 begin
   FDefaultIndex:=TDefaultJSONIndex.Create(Self,FRows);
   AppendToIndexes;
-  if FCurrentIndex=Nil then
-    FCurrentIndex:=FDefaultIndex;
+  FCurrentIndex:=FDefaultIndex;
 end;
 
 function TBaseJSONDataSet.FilterExpressionClass : TFPExpressionParserClass;
@@ -1207,7 +1174,7 @@ begin
   Result:=TFPExpressionParser;
 end;
 
-function TBaseJSONDataSet.GetFilterIsNull(const Args: TExprParameterArray): TFPExpressionResult;
+function TBaseJSONDataSet.GetFilterIsNull(Const Args : TExprParameterArray) : TFPExpressionResult;
 
 begin
   Result.ResultType:=rtBoolean;
@@ -1234,7 +1201,7 @@ begin
   end;
 end;
 
-function TBaseJSONDataSet.GetFilterField(const AName: String): TFPExpressionResult;
+function TBaseJSONDataSet.GetFilterField(Const AName : String) : TFPExpressionResult;
 
 Var
   F : TField;
@@ -1298,7 +1265,7 @@ begin
   end;
 end;
 
-function TBaseJSONDataSet.GetRecord(var Buffer: TDataRecord; GetMode: TGetMode; DoCheck: Boolean): TGetResult;
+function TBaseJSONDataSet.GetRecord(Var Buffer: TDataRecord; GetMode: TGetMode; DoCheck: Boolean): TGetResult;
 
 Var
   BkmIdx : Integer;
@@ -1351,7 +1318,7 @@ end;
 
 procedure TBaseJSONDataSet.InternalClose;
 begin
-  // disconnect and destroy field objects
+  // disconnet and destroy field objects
   BindFields (False);
   if DefaultFields then
     DestroyFields;
@@ -1452,15 +1419,13 @@ begin
     CreateFields;
   BindFields (True);
   InitDateTimeFields;
-  if FActiveIndex<>'' then
-    ActivateIndex(True);
   FCurrent := -1;
 end;
 
 procedure TBaseJSONDataSet.InternalPost;
 
 Var
-  I,NewIdx,NewCurrent,Idx : integer;
+  I,NewCurrent,Idx : integer;
   B : TBookmark;
 
 begin
@@ -1472,24 +1437,23 @@ begin
     if GetBookMarkFlag(ActiveBuffer)=bfEOF then
       begin // Append
       FDefaultIndex.Append(Idx);
+      // Must replace this by updating all indexes
       for I:=0 to FIndexes.Count-1 do
-	    if Assigned(FIndexes[i].Findex) then
-          begin
-          NewIdx:=FIndexes[i].Findex.Append(Idx);
-          if FIndexes[i].Findex=FCurrentIndex then
-            NewCurrent:=NewIdx;
-          end;
+        begin
+        NewCurrent:=FIndexes[i].Findex.Append(Idx);
+        if FIndexes[i].Findex<>FCurrentIndex then
+          NewCurrent:=-1;
+        end;
       end
     else  // insert
       begin
       FCurrent:=FDefaultIndex.Insert(FCurrent,Idx);
       for I:=0 to FIndexes.Count-1 do
-	    if Assigned(FIndexes[i].Findex) then
-          begin
-          NewIdx:=FIndexes[i].Findex.Append(Idx);
-          if FIndexes[i].Findex=FCurrentIndex then
-            NewCurrent:=NewIdx;
-          end;
+        begin
+        NewCurrent:=FIndexes[i].Findex.Append(Idx);
+        if FIndexes[i].Findex<>FCurrentIndex then
+          NewCurrent:=-1;
+        end;
       end;
     end
   else
@@ -1505,10 +1469,9 @@ begin
     for I:=0 to FIndexes.Count-1 do
       begin
       // Determine old index.
-      NewIdx:=FCurrentIndex.Update(Idx);
-      if Assigned(FIndexes[i].Findex) then
-        if FIndexes[i].Findex=FCurrentIndex then
-          NewCurrent:=NewIdx;
+      NewCurrent:=FCurrentIndex.Update(Idx);
+      if FIndexes[i].Findex<>FCurrentIndex then
+        NewCurrent:=-1;
       end;
     end;
   // We have an active index, set current to that index.
@@ -1584,9 +1547,15 @@ begin
                Ptrn:=(F as TJSONDateTimeField).DateTimeFormat;
   end;
   If (Ptrn='') then
-    Result := DefaultConvertToDateTime(F,S,True)
+    Case F.DataType of
+      ftDate : Result:=StrToDate(S);
+      ftTime : Result:=StrToTime(S);
+      ftDateTime : Result:=StrToDateTime(S);
+    end
   else
+    begin
     Result:=ScanDateTime(ptrn,S,1);
+    end;
 end;
 
 function TBaseJSONDataSet.FormatDateTimeField(DT: TDateTime; F: TField
@@ -1606,7 +1575,11 @@ begin
                 Ptrn:=TJSONDateTimeField(F).DateTimeFormat;
   end;
   If (Ptrn='') then
-    Result := DateTimeToRFC3339(DT)
+    Case F.DataType of
+      ftDate : Result:=DateToStr(DT);
+      ftTime : Result:=TimeToStr(DT);
+      ftDateTime : Result:=DateTimeToStr(DT);
+    end
   else
     Result:=FormatDateTime(ptrn,DT);
 end;
@@ -1709,14 +1682,14 @@ end;
 
 destructor TBaseJSONDataSet.Destroy;
 begin
-  Close;
   FreeAndNil(FFilterExpression);
   FreeAndNil(FIndexes);
   FEditIdx:=-1;
+  FreeData;
   inherited;
 end;
 
-function TBaseJSONDataSet.CreateIndexDefs: TJSONIndexDefs;
+Function TBaseJSONDataSet.CreateIndexDefs : TJSONIndexDefs;
 
 begin
   Result:=TJSONIndexDefs.Create(Self,Self,TJSONIndexDef);
@@ -1749,10 +1722,7 @@ begin
   Result:=-1;
   Comp:=RecordComparerClass.Create(Self,KeyFields,KeyValues,Options);
   try
-    if loFromCurrent in Options then
-      I:=FCurrent
-    else
-      I:=0;
+    I:=FCurrent;
     RI:=FCurrentIndex.GetRecordIndex(I);
     While (Result=-1) and (RI<>-1) do
       begin
