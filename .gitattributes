@@ -298,4 +298,11 @@ packages/rtl/webgl.pas svneol=native#text/plain
 packages/rtl/webrouter.pp svneol=native#text/plain
 packages/rtl/websvg.pas svneol=native#text/plain
 scripts/buildpas2js -text
+test/frmrtlrun.pp svneol=native#text/plain
+test/tccompstreaming.pp svneol=native#text/plain
+test/tcstream.pp svneol=native#text/plain
+test/tcstreaming.pp svneol=native#text/plain
+test/testrtl.html -text
+test/testrtl.lpi svneol=native#text/plain
+test/testrtl.lpr svneol=native#text/plain
 utils/createconfig.pp svneol=native#text/plain
