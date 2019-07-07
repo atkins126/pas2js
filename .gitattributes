@@ -284,6 +284,7 @@ packages/rtl/pas2js_rtl.lpk -text
 packages/rtl/pas2js_rtl.pas svneol=native#text/plain
 packages/rtl/rtlconsts.pas svneol=native#text/plain
 packages/rtl/rtti.pas svneol=native#text/plain
+packages/rtl/simplelinkedlist.pas svneol=native#text/plain
 packages/rtl/strutils.pas svneol=native#text/plain
 packages/rtl/system.pas svneol=native#text/plain
 packages/rtl/sysutils.pas svneol=native#text/plain
