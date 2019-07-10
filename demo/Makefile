@@ -5,7 +5,7 @@ TARGETS=democomponents demobrowseconsole demoajax demoxhr restbridgeclient \
   chartjs_demoline chartjs_demotime chartjs_demoscriptablebubble chartjs_demoradar \
   chartjs_democustompoints chartjs_demopolararea promiseall promisestory1 \
   promisestory2 promisestory demodb demoload demorest fpcunitbrowsertest \
-  sampleda webgl1 pdfbasic hotreload dynload
+  sampleda webgl1 pdfbasic hotreload
 ifneq ($(SKIPWEBCOMPILER),1)
 TARGETS:=$(TARGETS) demowebcompiler
 BASEDIR=$(CURDIR)/../compiler/packages
@@ -14,92 +14,83 @@ COMPILERUNITPATH=$(BASEDIR)/compat;$(BASEDIR)/fcl-json/src;$(BASEDIR)/fcl-passrc
 endif
   
 .PHONY: $(TARGETS)
+P2JS=pas2js
 P2JSOPT=-Fu../packages/\*
-P2JS=pas2js 
-BROWSERP2JS=$(P2JS) $(P2JSOPT) -Jirtl.js -Jc -Tbrowser
-CHARTJSDIR=chartjs/js
-CHARTOUTPUT=-FE$(CHARTJSDIR)
-CHARTCMD=$(BROWSERP2JS) $(CHARTOUTPUT)
-
 all: $(TARGETS)
 
 info:
 	@echo Available targets: $(TARGETS)
-$(CHARTJSDIR):
-	mkdir $(CHARTJSDIR)
 
 democomponents: ./rtl/democomponents.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
+	
 demobrowseconsole: ./rtl/demobrowserconsole.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demoajax: ./rtl/demoajax.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demoxhr: ./rtl/demoxhr.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 restbridgeclient: ./restbridge/simple/restbridgeclient.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demowebcompiler: ./webcompiler/demowebcompiler.lpr
-	$(BROWSERP2JS) -Sc -TBrowser "-Fu$(COMPILERUNITPATH)" "-Fu$(COMPILERDIR)" $<
+	$(P2JS) -Sc -TBrowser "-Fu$(COMPILERUNITPATH)" "-Fu$(COMPILERDIR)" $(P2JSOPT) $<
 fpreportdemo: ./fpreport/reportdemo.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoprogressbar: ./chartjs/demoprogressbar.lpr
-	$(CHARTCMD)  $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demodate: ./chartjs/demodate.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoscatter: ./chartjs/demoscatter.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demomixed: ./chartjs/demomixed.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demobar: ./chartjs/demobar.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoarea: ./chartjs/demoarea.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demobubble: ./chartjs/demobubble.lpr
-	$(CHARTCMD)  $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demopie: ./chartjs/demopie.lpr
-	$(CHARTCMD) -Sc $<
+	$(P2JS) -Sc $(P2JSOPT) $<
 chartjs_demodatalabelling: ./chartjs/demodatalabelling.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demodoughnut: ./chartjs/demodoughnut.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demointeractions: ./chartjs/demointeractions.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoline: ./chartjs/demoline.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demotime: ./chartjs/demotime.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoscriptablebubble: ./chartjs/demoscriptablebubble.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demoradar: ./chartjs/demoradar.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_democustompoints: ./chartjs/democustompoints.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 chartjs_demopolararea: ./chartjs/demopolararea.lpr
-	$(CHARTCMD) $<
+	$(P2JS) $(P2JSOPT) $<
 promiseall: ./promise/demoall.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 promisestory1: ./promise/story2.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 promisestory2: ./promise/story3.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 promisestory: ./promise/story.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demodb: ./fcldb/demodb.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demoload: ./fcldb/demoload.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 demorest: ./fcldb/demorest.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 fpcunitbrowsertest: ./fpcunit/browsertest.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 sampleda: ./dataabstract/sampleda.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 webgl1: ./webgl/project1.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 pdfbasic: ./jspdf/basic.lpr
-	$(BROWSERP2JS) $<
+	$(P2JS) $(P2JSOPT) $<
 hotreload: ./hotreload/hotreload.lpr
-	$(BROWSERP2JS) $<
-dynload: ./dynload/testloader.lpr ./dynload/myform.pp
-	$(BROWSERP2JS) -OoRemoveNotUsedDeclarations- ./dynload/testloader.lpr
-	$(P2JS) ./dynload/myform.pp
+	$(P2JS) $(P2JSOPT) $<

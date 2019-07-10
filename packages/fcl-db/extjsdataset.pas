@@ -80,7 +80,6 @@ type
     property OnFilterRecord;
     property OnNewRecord;
     property OnPostError;
-    Property OwnsData;
   end;
 
   { TExtJSJSONObjectDataSet }
@@ -250,8 +249,7 @@ begin
     O:=TJSObject(A[0]);
     For I:=0 to Fields.Count-1 do
       begin
-      FN:=Fields[i].FieldName;
-      if O.hasOwnProperty(FN) then
+      if O.hasOwnProperty(Fields[i].FieldName) then
         FieldMapper.SetJSONDataForField(Fields[i],Rows[RecordIndex],O[FN]);
       end;
     end;
