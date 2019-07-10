@@ -203,6 +203,12 @@ demo/rtl/demouncaughtexception.pas svneol=native#text/plain
 demo/rtl/demoxhr.html -text
 demo/rtl/demoxhr.lpi svneol=native#text/plain
 demo/rtl/demoxhr.lpr svneol=native#text/plain
+demo/tetris/tetris.css -text
+demo/tetris/tetris.html -text
+demo/tetris/tetris.lpi svneol=native#text/plain
+demo/tetris/tetris.lpr svneol=native#text/plain
+demo/tetris/tetrislogo.png -text svneol=unset#image/png
+demo/tetris/utetris.pp svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpi svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpr svneol=native#text/plain
 demo/webcompiler/run.html -text
