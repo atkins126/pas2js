@@ -4,6 +4,7 @@
 /README.txt svneol=native#text/plain
 compiler/packages/compat/pascodegen.pp svneol=native#text/plain
 demo/Makefile svneol=native#text/plain
+demo/chartjs/chartjs_demos.lpg -text
 demo/chartjs/demoarea.html -text
 demo/chartjs/demoarea.lpi svneol=native#text/plain
 demo/chartjs/demoarea.lpr svneol=native#text/plain
@@ -116,6 +117,7 @@ demo/jquery/demoaddclass2.pas svneol=native#text/plain
 demo/jspdf/basic.html -text
 demo/jspdf/basic.lpi svneol=native#text/plain
 demo/jspdf/basic.lpr svneol=native#text/plain
+demo/pas2js_demos.lpg -text
 demo/promise/askmom.html -text
 demo/promise/askmom.lpi svneol=native#text/plain
 demo/promise/askmom.pas svneol=native#text/plain
@@ -127,6 +129,7 @@ demo/promise/chapter-5.json -text
 demo/promise/demoall.html -text
 demo/promise/demoall.lpi svneol=native#text/plain
 demo/promise/demoall.lpr svneol=native#text/plain
+demo/promise/promise_demos.lpg -text
 demo/promise/readme.md -text
 demo/promise/story.html -text
 demo/promise/story.json -text
@@ -203,6 +206,7 @@ demo/rtl/demouncaughtexception.pas svneol=native#text/plain
 demo/rtl/demoxhr.html -text
 demo/rtl/demoxhr.lpi svneol=native#text/plain
 demo/rtl/demoxhr.lpr svneol=native#text/plain
+demo/rtl/rtl_demos.lpg -text
 demo/tetris/tetris.css -text
 demo/tetris/tetris.html -text
 demo/tetris/tetris.lpi svneol=native#text/plain
@@ -239,6 +243,7 @@ demo/webgl/html/res/ground.jpg -text svneol=unset#image/jpeg
 demo/webgl/html/res/spacestars.jpg -text svneol=unset#image/jpeg
 demo/webgl/project1.lpi svneol=native#text/plain
 demo/webgl/project1.lpr svneol=native#text/plain
+demo/webgl/webgl_demos.lpg -text
 /fpmake.pp svneol=native#text/plain
 packages/chartjs/chartjs.pas svneol=native#text/plain
 packages/dataabstract/da.pas svneol=native#text/plain
