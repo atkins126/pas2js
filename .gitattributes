@@ -143,6 +143,9 @@ demo/promise/story3.lpi svneol=native#text/plain
 demo/promise/story3.lpr svneol=native#text/plain
 demo/promise/styles.css -text
 demo/promise/utils.pp svneol=native#text/plain
+demo/pushjs/helloworld.html -text
+demo/pushjs/helloworld.lpi svneol=native#text/plain
+demo/pushjs/helloworld.lpr svneol=native#text/plain
 demo/restbridge/simple/README.txt svneol=native#text/plain
 demo/restbridge/simple/restbridge.html -text
 demo/restbridge/simple/restbridgeclient.lpi svneol=native#text/plain
@@ -277,6 +280,8 @@ packages/fpcunit/testdecorator.pas svneol=native#text/plain
 packages/fpcunit/testregistry.pas svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/nodejsfs.pas svneol=native#text/plain
+packages/pushjs/pushjs.js -text
+packages/pushjs/pushjs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
 packages/rtl/Rtl.ScriptLoader.pas svneol=native#text/plain
 packages/rtl/Rtl.UnitLoader.pas svneol=native#text/plain
