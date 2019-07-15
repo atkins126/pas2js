@@ -216,6 +216,18 @@ demo/tetris/tetris.lpi svneol=native#text/plain
 demo/tetris/tetris.lpr svneol=native#text/plain
 demo/tetris/tetrislogo.png -text svneol=unset#image/png
 demo/tetris/utetris.pp svneol=native#text/plain
+demo/translate/dutch.json -text
+demo/translate/mystrings.pp svneol=native#text/plain
+demo/translate/rstranslate.pp svneol=native#text/plain
+demo/translate/translate_basic.html -text
+demo/translate/translate_basic.lpi svneol=native#text/plain
+demo/translate/translate_basic.lpr svneol=native#text/plain
+demo/translate/translate_object.html -text
+demo/translate/translate_object.lpi svneol=native#text/plain
+demo/translate/translate_object.lpr svneol=native#text/plain
+demo/translate/translate_url.html -text
+demo/translate/translate_url.lpi svneol=native#text/plain
+demo/translate/translate_url.lpr svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpi svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpr svneol=native#text/plain
 demo/webcompiler/run.html -text
@@ -298,6 +310,7 @@ packages/rtl/nodejs.pas svneol=native#text/plain
 packages/rtl/objpas.pas svneol=native#text/plain
 packages/rtl/pas2js_rtl.lpk -text
 packages/rtl/pas2js_rtl.pas svneol=native#text/plain
+packages/rtl/rstranslate.pp svneol=native#text/plain
 packages/rtl/rtlconsts.pas svneol=native#text/plain
 packages/rtl/rtti.pas svneol=native#text/plain
 packages/rtl/simplelinkedlist.pas svneol=native#text/plain
