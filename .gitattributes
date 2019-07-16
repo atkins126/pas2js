@@ -218,7 +218,6 @@ demo/tetris/tetrislogo.png -text svneol=unset#image/png
 demo/tetris/utetris.pp svneol=native#text/plain
 demo/translate/dutch.json -text
 demo/translate/mystrings.pp svneol=native#text/plain
-demo/translate/rstranslate.pp svneol=native#text/plain
 demo/translate/translate_basic.html -text
 demo/translate/translate_basic.lpi svneol=native#text/plain
 demo/translate/translate_basic.lpr svneol=native#text/plain
