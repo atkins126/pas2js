@@ -117,6 +117,21 @@ demo/jquery/demoaddclass2.pas svneol=native#text/plain
 demo/jspdf/basic.html -text
 demo/jspdf/basic.lpi svneol=native#text/plain
 demo/jspdf/basic.lpr svneol=native#text/plain
+demo/pacman/audio/die.mp3 -text
+demo/pacman/audio/eatghost.mp3 -text
+demo/pacman/audio/eating.mp3 -text
+demo/pacman/audio/start.mp3 -text
+demo/pacman/cherry.png -text svneol=unset#image/png
+demo/pacman/ghost-scared.png -text svneol=unset#image/png
+demo/pacman/ghost1.png -text svneol=unset#image/png
+demo/pacman/ghost2.png -text svneol=unset#image/png
+demo/pacman/ghost3.png -text svneol=unset#image/png
+demo/pacman/ghost4.png -text svneol=unset#image/png
+demo/pacman/pacman.css -text
+demo/pacman/pacman.html -text
+demo/pacman/pacman.lpi svneol=native#text/plain
+demo/pacman/pacman.lpr svneol=native#text/plain
+demo/pacman/upacman.pp svneol=native#text/plain
 demo/pas2js_demos.lpg -text
 demo/promise/askmom.html -text
 demo/promise/askmom.lpi svneol=native#text/plain
