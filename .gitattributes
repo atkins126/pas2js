@@ -273,6 +273,28 @@ demo/webgl/html/res/spacestars.jpg -text svneol=unset#image/jpeg
 demo/webgl/project1.lpi svneol=native#text/plain
 demo/webgl/project1.lpr svneol=native#text/plain
 demo/webgl/webgl_demos.lpg -text
+demo/webwidget/designdemo/design.css -text
+demo/webwidget/designdemo/designdemo.html -text
+demo/webwidget/designdemo/designdemo.lpi svneol=native#text/plain
+demo/webwidget/designdemo/designdemo.lpr svneol=native#text/plain
+demo/webwidget/designdemo/designer.pp svneol=native#text/plain
+demo/webwidget/designdemo/webideclient.pp svneol=native#text/plain
+demo/webwidget/designdemo/widgets/button.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/checkbox.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/container.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/edit.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/image.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/jumbo.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/memo.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/radio.png -text svneol=unset#image/png
+demo/webwidget/designdemo/widgets/select.png -text svneol=unset#image/png
+demo/webwidget/nativedesign/frmmain.lfm svneol=native#text/plain
+demo/webwidget/nativedesign/frmmain.pp svneol=native#text/plain
+demo/webwidget/nativedesign/nativedesigner.ico -text
+demo/webwidget/nativedesign/nativedesigner.lpi svneol=native#text/plain
+demo/webwidget/nativedesign/nativedesigner.lpr svneol=native#text/plain
+demo/webwidget/nativedesign/nativedesigner.res -text
+demo/webwidget/nativedesign/webideintf.pp svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
 packages/chartjs/chartjs.pas svneol=native#text/plain
 packages/dataabstract/da.pas svneol=native#text/plain
@@ -340,6 +362,16 @@ packages/rtl/webbluetooth.pas svneol=native#text/plain
 packages/rtl/webgl.pas svneol=native#text/plain
 packages/rtl/webrouter.pp svneol=native#text/plain
 packages/rtl/websvg.pas svneol=native#text/plain
+packages/webwidget/htmlwidgets.pp svneol=native#text/plain
+packages/webwidget/lazwebwidgets.lpk -text
+packages/webwidget/lazwebwidgets.pas svneol=native#text/plain
+packages/webwidget/tests/btnrun.pp svneol=native#text/plain
+packages/webwidget/tests/tchtmlwidgets.pp svneol=native#text/plain
+packages/webwidget/tests/tcwidget.pp svneol=native#text/plain
+packages/webwidget/tests/testwidgets.html -text
+packages/webwidget/tests/testwidgets.lpi svneol=native#text/plain
+packages/webwidget/tests/testwidgets.lpr svneol=native#text/plain
+packages/webwidget/webwidget.pas svneol=native#text/plain
 scripts/buildpas2js -text
 test/frmrtlrun.pp svneol=native#text/plain
 test/tccompstreaming.pp svneol=native#text/plain
