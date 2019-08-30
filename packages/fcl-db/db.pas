@@ -46,7 +46,7 @@ type
     deCheckBrowseMode, dePropertyChange, deFieldListChange, deFocusControl,
     deParentScroll,deConnectChange,deReconcileError,deDisabledStateChange);
 
-  TUpdateStatus = (usUnmodified, usModified, usInserted, usDeleted, usResolved, usResolveFailed, usResolving);
+  TUpdateStatus = (usUnmodified, usModified, usInserted, usDeleted, usResolved, usResolveFailed);
   TUpdateStatusSet = Set of TUpdateStatus;
 
   TUpdateMode = (upWhereAll, upWhereChanged, upWhereKeyOnly);
@@ -1002,7 +1002,7 @@ type
   TUpdateAction = (uaFail, uaAbort, uaSkip, uaRetry, uaApplied);
   TUpdateKind = (ukModify, ukInsert, ukDelete);
 
-  TLocateOption = (loCaseInsensitive, loPartialKey, loFromCurrent);
+  TLocateOption = (loCaseInsensitive, loPartialKey);
   TLocateOptions = set of TLocateOption;
   TDataOperation = procedure of object;
 
@@ -1118,7 +1118,6 @@ type
     FUpdateBatchID : Integer;
     FChangeList : TFPList;
     FBatchList : TFPList;
-    FInApplyupdates : Boolean;
     Procedure DoInsertAppend(DoAppend : Boolean);
     Procedure DoInternalOpen;
     Function  GetBuffer (Index : longint) : TDataRecord;
@@ -1153,7 +1152,6 @@ type
     Procedure InitChangeList; virtual;
     Procedure DoneChangeList; virtual;
     Procedure ClearChangeList;
-    procedure ResetUpdateDescriptors;
     Function IndexInChangeList(aBookmark: TBookmark): Integer; virtual;
     Function AddToChangeList(aChange : TUpdateStatus) : TRecordUpdateDescriptor ; virtual;
     Procedure RemoveFromChangeList(R : TRecordUpdateDescriptor); virtual;
@@ -1295,10 +1293,10 @@ type
     procedure Append;
     procedure AppendRecord(const Values: array of jsValue);
     function BookmarkValid(ABookmark{%H-}: TBookmark): Boolean; virtual;
-    function ConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException : Boolean) : TDateTime; virtual;
-    function ConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; virtual;
-    Class function DefaultConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException{%H-} : Boolean) : TDateTime; virtual;
-    Class function DefaultConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; virtual;
+    function ConvertToDateTime(aValue : JSValue; ARaiseException : Boolean) : TDateTime; virtual;
+    function ConvertDateTimeToNative(aValue : TDateTime) : JSValue; virtual;
+    Class function DefaultConvertToDateTime(aValue : JSValue; ARaiseException{%H-} : Boolean) : TDateTime; virtual;
+    Class function DefaultConvertDateTimeToNative(aValue : TDateTime) : JSValue; virtual;
     Function BlobDataToBytes(aValue : JSValue) : TBytes; virtual;
     Class Function DefaultBlobDataToBytes(aValue : JSValue) : TBytes; virtual;
     Function BytesToBlobData(aValue : TBytes) : JSValue ; virtual;
@@ -2738,7 +2736,7 @@ begin
     FBeforeApplyUpdates(Self);
 end;
 
-procedure TDataSet.DoAfterApplyUpdates(const ResolveInfo: TResolveResults);
+procedure TDataSet.DoAfterApplyUpdates(Const ResolveInfo : TResolveResults);
 
 begin
   If Assigned(FAfterApplyUpdates) then
@@ -2807,17 +2805,7 @@ begin
     end;
 end;
 
-procedure TDataSet.ResetUpdateDescriptors;
-
-Var
-  I : Integer;
-
-begin
-  For I:=0 to FChangeList.Count-1 do
-    TRecordUpdateDescriptor(FChangeList[i]).Reset;
-end;
-
-function TDataSet.IndexInChangeList(aBookmark: TBookmark): Integer;
+Function TDataSet.IndexInChangeList(aBookmark : TBookmark) : Integer;
 
 begin
   Result:=-1;
@@ -2828,7 +2816,7 @@ begin
     Dec(Result);
 end;
 
-function TDataSet.AddToChangeList(aChange: TUpdateStatus): TRecordUpdateDescriptor;
+Function TDataSet.AddToChangeList(aChange: TUpdateStatus) : TRecordUpdateDescriptor;
 
 Var
   B : TBookmark;
@@ -2866,7 +2854,7 @@ begin
     Exit;
 end;
 
-function TDataSet.GetRecordUpdates(AList: TRecordUpdateDescriptorList): Integer;
+Function TDataSet.GetRecordUpdates(AList: TRecordUpdateDescriptorList) : Integer;
 
 Var
   I,MinIndex : integer;
@@ -2874,12 +2862,11 @@ Var
 begin
   MinIndex:=0; // Check batch list for minimal index ?
   For I:=MinIndex to FChangeList.Count-1 do
-    if Not (TRecordUpdateDescriptor(FChangeList[i]).Status in [usResolving,usResolved])  then
-      Alist.Add(FChangeList[i]);
+    Alist.Add(FChangeList[i]);
   Result:=FChangeList.Count;
 end;
 
-function TDataSet.ResolveRecordUpdate(anUpdate: TRecordUpdateDescriptor): Boolean;
+Function TDataSet.ResolveRecordUpdate(anUpdate: TRecordUpdateDescriptor) : Boolean;
 
 // This must return true if the record may be removed from the list of 'modified' records.
 // If it returns false, the record is kept in the list of modified records.
@@ -2899,7 +2886,7 @@ begin
   DoOnRecordResolved(anUpdate);
 end;
 
-function TDataSet.RecordUpdateDescriptorToResolveInfo(anUpdate: TRecordUpdateDescriptor): TResolveInfo;
+Function TDataSet.RecordUpdateDescriptorToResolveInfo(anUpdate: TRecordUpdateDescriptor) : TResolveInfo;
 
 begin
   Result.BookMark:=anUpdate.Bookmark;
@@ -2974,33 +2961,24 @@ Var
 begin
   if Not Assigned(DataProxy) then
     DatabaseError(SErrDoApplyUpdatesNeedsProxy,Self);
-  if FInApplyupdates then
-    exit;
+  if Not (Assigned(FChangeList) and (FChangeList.Count>0)) then
+    Exit;
+  L:=TRecordUpdateDescriptorList.Create;
   try
-    FInApplyupdates:=True;
-    if Not (Assigned(FChangeList) and (FChangeList.Count>0)) then
-      Exit;
-    L:=TRecordUpdateDescriptorList.Create;
-    try
-      I:=GetRecordUpdates(L);
-    except
-      L.Free;
-      Raise;
-    end;
-    Inc(FUpdateBatchID);
-    For I:=0 to L.Count-1 do
-      TRecordUpdateDescriptor(L[i]).SetStatus(usResolving);
-    B:=DataProxy.GetRecordUpdateBatch(FUpdateBatchID,L,True);
-    B.FDataset:=Self;
-    B.FLastChangeIndex:=I;
-    B.OnResolve:=@ResolveUpdateBatch;
-    If not Assigned(FBatchlist) then
-      FBatchlist:=TFPList.Create;
-    FBatchList.Add(B);
-    DataProxy.ProcessUpdateBatch(B);
-  Finally
-    FInApplyupdates:=False;
+    I:=GetRecordUpdates(L);
+  except
+    L.Free;
+    Raise;
   end;
+  Inc(FUpdateBatchID);
+  B:=DataProxy.GetRecordUpdateBatch(FUpdateBatchID,L,True);
+  B.FDataset:=Self;
+  B.FLastChangeIndex:=I;
+  B.OnResolve:=@ResolveUpdateBatch;
+  If not Assigned(FBatchlist) then
+    FBatchlist:=TFPList.Create;
+  FBatchList.Add(B);
+  DataProxy.ProcessUpdateBatch(B);
 end;
 
 procedure TDataSet.DoneChangeList;
@@ -3126,20 +3104,20 @@ begin
   // empty stub
 end;
 
-procedure TDataSet.InternalGotoBookmark(ABookmark: TBookmark);
+procedure TDataSet.InternalGotoBookmark(ABookmark: TBookMark);
 begin
   // empty stub
 end;
 
 
-function TDataSet.GetFieldData(Field: TField; Buffer: TDatarecord): JSValue;
+function TDataset.GetFieldData(Field: TField; Buffer: TDatarecord): JSValue;
 
 begin
   Result:=TJSObject(buffer.data).Properties[Field.FieldName];
 end;
 
 
-procedure TDataSet.SetFieldData(Field: TField; var Buffer: TDatarecord; AValue: JSValue);
+procedure TDataSet.SetFieldData(Field: TField; var Buffer: TDataRecord; AValue : JSValue);
 
 begin
   TJSObject(buffer.data).Properties[Field.FieldName]:=AValue;
@@ -3329,7 +3307,7 @@ begin
   FFieldDefs.Assign(AFieldDefs);
 end;
 
-procedure TDataSet.DoInsertAppendRecord(const Values: array of jsValue; DoAppend: boolean);
+procedure TDataSet.DoInsertAppendRecord(const Values: array of JSValue; DoAppend : boolean);
 var i : integer;
     ValuesSize : integer;
 begin
@@ -3344,7 +3322,7 @@ begin
   Post;
 end;
 
-procedure TDataSet.InitFieldDefsFromfields;
+procedure TDataSet.InitFieldDefsFromFields;
 var i : integer;
 
 begin
@@ -3422,7 +3400,7 @@ begin
   end;
 end;
 
-procedure TDataSet.RefreshInternalCalcFields(var Buffer: TDataRecord);
+procedure TDataSet.RefreshInternalCalcFields(Var Buffer: TDataRecord);
 
 begin
   //!! To be implemented
@@ -3489,12 +3467,12 @@ begin
   // empty stub
 end;
 
-procedure TDataSet.SetBookmarkFlag(var Buffer: TDataRecord; Value: TBookmarkFlag);
+procedure TDataSet.SetBookmarkFlag(Var Buffer: TDataRecord; Value: TBookmarkFlag);
 begin
   // empty stub
 end;
 
-procedure TDataSet.SetBookmarkData(var Buffer: TDataRecord; Data: TBookmark);
+procedure TDataSet.SetBookmarkData(Var Buffer: TDataRecord; Data: TBookmark);
 begin
   // empty stub
 end;
@@ -3873,7 +3851,7 @@ begin
   //!! To be implemented
 end;
 
-procedure TDataSet.AppendRecord(const Values: array of jsValue);
+procedure TDataSet.AppendRecord(const Values: array of JSValue);
 
 begin
   DoInsertAppendRecord(Values,True);
@@ -3889,12 +3867,12 @@ end;
 
 
 
-function TDataSet.ConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
+function TDataSet.ConvertToDateTime(aValue: JSValue; ARaiseException: Boolean): TDateTime;
 begin
-  Result:=DefaultConvertToDateTime(aField,aValue,ARaiseException);
+  Result:=DefaultConvertToDateTime(aValue,ARaiseException);
 end;
 
-class function TDataSet.DefaultConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
+class function TDataSet.DefaultConvertToDateTime(aValue: JSValue; ARaiseException: Boolean): TDateTime;
 begin
   Result:=0;
   if IsString(aValue) then
@@ -3906,13 +3884,13 @@ begin
     Result:=TDateTime(AValue)
 end;
 
-function TDataSet.ConvertDateTimeToNative(aField: TField; aValue : TDateTime) : JSValue;
+function TDataSet.ConvertDateTimeToNative(aValue : TDateTime) : JSValue;
 
 begin
-  Result:=DefaultConvertDateTimeToNative(aField, aValue);
+  Result:=DefaultConvertDateTimeToNative(aValue);
 end;
 
-class function TDataSet.DefaultConvertDateTimeToNative(aField: TField; aValue: TDateTime): JSValue;
+Class function TDataSet.DefaultConvertDateTimeToNative(aValue : TDateTime) : JSValue;
 
 begin
   Result:=DateTimeToRFC3339(aValue);
@@ -3948,13 +3926,13 @@ begin
     end;
 end;
 
-function TDataSet.BytesToBlobData(aValue: TBytes): JSValue;
+Function TDataSet.BytesToBlobData(aValue : TBytes) : JSValue ;
 
 begin
   Result:=DefaultBytesToBlobData(aValue);
 end;
 
-class function TDataSet.DefaultBytesToBlobData(aValue: TBytes): JSValue;
+Class Function TDataSet.DefaultBytesToBlobData(aValue : TBytes) : JSValue;
 
 Var
   S : String;
@@ -4394,7 +4372,7 @@ procedure TDataSet.GotoBookmark(const ABookmark: TBookmark);
 
 
 begin
-  If Not IsNull(ABookMark.Data) then
+  If Assigned(ABookMark) then
     begin
     CheckBrowseMode;
     DoBeforeScroll;
@@ -6757,20 +6735,18 @@ end;
 
 function TDateTimeField.ConvertToDateTime(aValue: JSValue; aRaiseError: Boolean): TDateTime;
 begin
-  if JS.isNull(aValue) then
-    Result:=0
-  else if Assigned(Dataset) then
-    Result:=Dataset.ConvertToDateTime(Self,aValue,aRaiseError)
+  if Assigned(Dataset) then
+    Result:=Dataset.ConvertToDateTime(aValue,aRaiseError)
   else
-    Result:=TDataset.DefaultConvertToDateTime(Self,aValue,aRaiseError);
+    Result:=TDataset.DefaultConvertToDateTime(aValue,aRaiseError);
 end;
 
 function TDateTimeField.DateTimeToNativeDateTime(aValue: TDateTime): JSValue;
 begin
   if Assigned(Dataset) then
-    Result:=Dataset.ConvertDateTimeToNative(Self,aValue)
+    Result:=Dataset.ConvertDateTimeToNative(aValue)
   else
-    Result:=TDataset.DefaultConvertDateTimeToNative(Self,aValue);
+    Result:=TDataset.DefaultConvertDateTimeToNative(aValue);
 end;
 
 function TDateTimeField.GetAsDateTime: TDateTime;
@@ -7131,9 +7107,9 @@ Var
 begin
   V:=GetData;
   if Assigned(Dataset) then
-    Result:=Dataset.ConvertToDateTime(Self,V,True)
+    Result:=Dataset.ConvertToDateTime(V,True)
   else
-    Result:=TDataset.DefaultConvertToDateTime(Self,V,True)
+    Result:=TDataset.DefaultConvertToDateTime(V,True)
 end;
 
 function TVariantField.GetAsFloat: Double;
