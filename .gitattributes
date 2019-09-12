@@ -225,6 +225,12 @@ demo/rtl/demoxhr.html -text
 demo/rtl/demoxhr.lpi svneol=native#text/plain
 demo/rtl/demoxhr.lpr svneol=native#text/plain
 demo/rtl/rtl_demos.lpg -text
+demo/templates/favicon.ico -text
+demo/templates/index.html -text
+demo/templates/templates.lpi svneol=native#text/plain
+demo/templates/templates.lpr svneol=native#text/plain
+demo/templates/templates/this.txt svneol=native#text/plain
+demo/templates/templates/thistoo.txt svneol=native#text/plain
 demo/tetris/tetris.css -text
 demo/tetris/tetris.html -text
 demo/tetris/tetris.lpi svneol=native#text/plain
@@ -332,6 +338,7 @@ packages/pushjs/pushjs.js -text
 packages/pushjs/pushjs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
 packages/rtl/Rtl.ScriptLoader.pas svneol=native#text/plain
+packages/rtl/Rtl.TemplateLoader.pas svneol=native#text/plain
 packages/rtl/Rtl.UnitLoader.pas svneol=native#text/plain
 packages/rtl/browserconsole.pas svneol=native#text/plain
 packages/rtl/class2pas.pas svneol=native#text/plain
