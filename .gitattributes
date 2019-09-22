@@ -367,6 +367,7 @@ packages/rtl/timer.pas svneol=native#text/plain
 packages/rtl/types.pas svneol=native#text/plain
 packages/rtl/typinfo.pas svneol=native#text/plain
 packages/rtl/web.pas svneol=native#text/plain
+packages/rtl/webassembly.pas svneol=native#text/plain
 packages/rtl/webaudio.pas svneol=native#text/plain
 packages/rtl/webbluetooth.pas svneol=native#text/plain
 packages/rtl/webgl.pas svneol=native#text/plain
