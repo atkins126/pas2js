@@ -4,6 +4,10 @@
 /README.txt svneol=native#text/plain
 compiler/packages/compat/pascodegen.pp svneol=native#text/plain
 demo/Makefile svneol=native#text/plain
+demo/bootstrap/bootstraptable.html -text
+demo/bootstrap/countries.json -text
+demo/bootstrap/demobootstraptable.lpi svneol=native#text/plain
+demo/bootstrap/demobootstraptable.lpr svneol=native#text/plain
 demo/chartjs/chartjs_demos.lpg -text
 demo/chartjs/demoarea.html -text
 demo/chartjs/demoarea.lpi svneol=native#text/plain
@@ -302,6 +306,8 @@ demo/webwidget/nativedesign/nativedesigner.lpr svneol=native#text/plain
 demo/webwidget/nativedesign/nativedesigner.res -text
 demo/webwidget/nativedesign/webideintf.pp svneol=native#text/plain
 /fpmake.pp svneol=native#text/plain
+packages/bootstrap/libbootstrap.pp svneol=native#text/plain
+packages/bootstrap/libbootstraptable.pp svneol=native#text/plain
 packages/chartjs/chartjs.pas svneol=native#text/plain
 packages/dataabstract/da.pas svneol=native#text/plain
 packages/dataabstract/dadataset.pas svneol=native#text/plain
