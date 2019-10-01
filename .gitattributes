@@ -103,6 +103,9 @@ demo/fpreport/frmmain.pp svneol=native#text/plain
 demo/fpreport/reportdemo.html -text
 demo/fpreport/reportdemo.lpi svneol=native#text/plain
 demo/fpreport/reportdemo.lpr svneol=native#text/plain
+demo/fullcalendar/demofullcalendar.html -text
+demo/fullcalendar/demofullcalendar.lpi svneol=native#text/plain
+demo/fullcalendar/demofullcalendar.lpr svneol=native#text/plain
 demo/hotreload/dirwatch.pp svneol=native#text/plain
 demo/hotreload/hotreload.cfg -text
 demo/hotreload/hotreload.html -text
@@ -338,6 +341,7 @@ packages/fpcunit/htmltestreport.pp svneol=native#text/plain
 packages/fpcunit/plaintestreport.pas svneol=native#text/plain
 packages/fpcunit/testdecorator.pas svneol=native#text/plain
 packages/fpcunit/testregistry.pas svneol=native#text/plain
+packages/fullcalendar/libfullcalendar.pp svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/nodejsfs.pas svneol=native#text/plain
 packages/pushjs/pushjs.js -text
