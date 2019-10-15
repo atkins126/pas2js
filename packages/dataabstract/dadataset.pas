@@ -34,8 +34,6 @@ Type
     function DataTypeToFieldType(s: String): TFieldType;
     procedure SetParams(AValue: TParams);
   Protected
-    function ConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException : Boolean) : TDateTime; override;
-    function ConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; override;
     Procedure MetaDataToFieldDefs; override;
   Public
     constructor create(aOwner : TComponent); override;
@@ -155,9 +153,6 @@ Type
 implementation
 
 uses strutils, sysutils;
-
-resourcestring
-  SErrInvalidDate = '%s is not a valid date value for %s';
 
 { TDAConnection }
 
@@ -351,9 +346,6 @@ begin
     case LowerCase(s) of
      'widestring' : result:=ftString;
      'currency' : result:=ftFloat;
-     'smallint' : result:=ftInteger;
-    else
-      writeln('Unknown field type:',S)
     end;
 end;
 
@@ -361,23 +353,6 @@ procedure TDADataset.SetParams(AValue: TParams);
 begin
   if FParams=AValue then Exit;
   FParams.Assign(AValue);
-end;
-
-function TDADataset.ConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
-begin
-  Result:=0;
-  if isDate(aValue) then
-    Result:=JSDateToDateTime(TJSDate(aValue))
-  else if isString(aValue) then
-    Result:=Inherited  ConvertToDateTime(afield,aValue,ARaiseException)
-  else
-    if aRaiseException then
-      DatabaseErrorFmt(SErrInvalidDate,[String(aValue),aField.FieldName],Self);
-end;
-
-function TDADataset.ConvertDateTimeToNative(aField: TField; aValue: TDateTime): JSValue;
-begin
-  Result:=DateTimeToJSDate(aValue);
 end;
 
 procedure TDADataset.MetaDataToFieldDefs;
@@ -426,15 +401,7 @@ begin
     fn:=F.Name;
     // The JSON streamer does not create all properties :(
     if FO.hasOwnProperty('size') then
-      begin
-
-      if isString(FO['size']) then
-        fs:=StrToInt(String(FO['size']))
-      else if isNumber(FO['size']) then
-        fs:=F.Size
-      else
-        fs:=0;
-      end
+      fs:=F.Size
     else
       fs:=0;
     if FO.hasOwnProperty('type') then
@@ -448,7 +415,6 @@ begin
     Ft:=DataTypeToFieldType(dT);
     if (ft=ftBlob) and (fs=0) then
       fs:=1;
-//    Writeln('FieldDef : ',fn,', ',ft,', ',fs);
     FieldDefs.Add(fn,ft,fs,Req);
     end;
 end;
@@ -473,7 +439,6 @@ begin
     begin
     Result[i].Name:=DADS.Params[i].Name;
     Result[i].Value:=DADS.Params[i].Value;
-//    Writeln('Set param ',Result[i].Name,' to ',Result[i].Value);
     end;
 end;
 
@@ -496,9 +461,7 @@ begin
   DADS:=aRequest.Dataset as TDADataset;
   R:=aRequest as TDADatarequest;
   if (Connection=Nil) then
-    Raise EDADataset.Create(DADS.Name+': Cannot get data without connection');
-  if (DADS.TableName='') then
-    Raise EDADataset.Create(DADS.Name+': Cannot get data without tablename');
+    Raise EDADataset.Create(Name+': Cannot get data without connection');
   DS:=Connection.EnsureDataservice;
   TN:=TDAStringArray.New;
   TN.fromObject([DADS.TableName]);

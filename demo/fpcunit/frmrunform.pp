@@ -5,7 +5,7 @@ unit frmrunform;
 interface
 
 uses
-  Classes, SysUtils, js, web, hotreloadclient, browserTestRunner, fpcunitreport;
+  Classes, SysUtils, js, web, hotreloadclient, browserTestRunner;
 
 Type
 

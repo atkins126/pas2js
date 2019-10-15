@@ -142,7 +142,6 @@ Type
     function read (const aName,aType : String) : TROValue;
     Procedure write (const aName,aType : String; aValue : JSValue);
     Property ClientID : String Read getClientID Write setClientID;
-    Property ErrorMessage : String Read getErrorMessage;
   end;
 
   TROJSONMessage = class external name 'RemObjects.SDK.JSONMessage' (TROMessage)
