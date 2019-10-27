@@ -168,6 +168,27 @@ demo/promise/utils.pp svneol=native#text/plain
 demo/pushjs/helloworld.html -text
 demo/pushjs/helloworld.lpi svneol=native#text/plain
 demo/pushjs/helloworld.lpr svneol=native#text/plain
+demo/resources/consoledemo.lpi svneol=native#text/plain
+demo/resources/consoledemo.lpr svneol=native#text/plain
+demo/resources/down.png -text svneol=unset#image/png
+demo/resources/help.txt svneol=native#text/plain
+demo/resources/htmldemo.html -text
+demo/resources/htmldemo.lpi svneol=native#text/plain
+demo/resources/htmldemo.lpr svneol=native#text/plain
+demo/resources/htmllinkdemo.html -text
+demo/resources/htmllinkdemo.lpi svneol=native#text/plain
+demo/resources/htmllinkdemo.lpr svneol=native#text/plain
+demo/resources/htmlloadlinkdemo.html -text
+demo/resources/htmlloadlinkdemo.lpi svneol=native#text/plain
+demo/resources/htmlloadlinkdemo.lpr svneol=native#text/plain
+demo/resources/left.png -text svneol=unset#image/png
+demo/resources/right.png -text svneol=unset#image/png
+demo/resources/testa.html -text
+demo/resources/testb.html -text
+demo/resources/testres.html -text
+demo/resources/unita.pp svneol=native#text/plain
+demo/resources/unitb.pp svneol=native#text/plain
+demo/resources/up.png -text svneol=unset#image/png
 demo/restbridge/simple/README.txt svneol=native#text/plain
 demo/restbridge/simple/restbridge.html -text
 demo/restbridge/simple/restbridgeclient.lpi svneol=native#text/plain
@@ -364,6 +385,7 @@ packages/rtl/libjquery.pas svneol=native#text/plain
 packages/rtl/math.pas svneol=native#text/plain
 packages/rtl/nodejs.pas svneol=native#text/plain
 packages/rtl/objpas.pas svneol=native#text/plain
+packages/rtl/p2jsres.pp svneol=native#text/plain
 packages/rtl/pas2js_rtl.lpk -text
 packages/rtl/pas2js_rtl.pas svneol=native#text/plain
 packages/rtl/rstranslate.pp svneol=native#text/plain
