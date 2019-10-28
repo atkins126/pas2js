@@ -170,6 +170,8 @@ demo/pushjs/helloworld.lpi svneol=native#text/plain
 demo/pushjs/helloworld.lpr svneol=native#text/plain
 demo/resources/consoledemo.lpi svneol=native#text/plain
 demo/resources/consoledemo.lpr svneol=native#text/plain
+demo/resources/css/stylejs.css -text
+demo/resources/css/stylelink.css -text
 demo/resources/down.png -text svneol=unset#image/png
 demo/resources/help.txt svneol=native#text/plain
 demo/resources/htmldemo.html -text
