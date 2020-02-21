@@ -241,6 +241,8 @@ demo/rtl/demojsregexp.pas svneol=native#text/plain
 demo/rtl/demojsstring.pas svneol=native#text/plain
 demo/rtl/demonew.html -text
 demo/rtl/demonew.pas svneol=native#text/plain
+demo/rtl/demonodecmdlineoptions.lpi svneol=native#text/plain
+demo/rtl/demonodecmdlineoptions.pas svneol=native#text/plain
 demo/rtl/demorouter.lpi svneol=native#text/plain
 demo/rtl/demorouter.pas svneol=native#text/plain
 demo/rtl/demortti.lpi svneol=native#text/plain
