@@ -124,6 +124,8 @@ demo/jquery/demoaddclass2.pas svneol=native#text/plain
 demo/jspdf/basic.html -text
 demo/jspdf/basic.lpi svneol=native#text/plain
 demo/jspdf/basic.lpr svneol=native#text/plain
+demo/nodehttpserver/nodehttpdemo.lpi svneol=native#text/plain
+demo/nodehttpserver/nodehttpdemo.lpr svneol=native#text/plain
 demo/pacman/audio/die.mp3 -text
 demo/pacman/audio/eatghost.mp3 -text
 demo/pacman/audio/eating.mp3 -text
