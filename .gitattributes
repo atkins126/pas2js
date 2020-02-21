@@ -368,6 +368,9 @@ packages/fpcunit/testregistry.pas svneol=native#text/plain
 packages/fullcalendar/libfullcalendar.pp svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/nodejsfs.pas svneol=native#text/plain
+packages/nodejs/nodejshttp.pp svneol=native#text/plain
+packages/nodejs/nodejsnet.pp svneol=native#text/plain
+packages/nodejs/nodejsurl.pp svneol=native#text/plain
 packages/pushjs/pushjs.js -text
 packages/pushjs/pushjs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
