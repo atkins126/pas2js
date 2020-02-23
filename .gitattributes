@@ -375,6 +375,7 @@ packages/nodejs/nodejsfs.pas svneol=native#text/plain
 packages/nodejs/nodejshttp.pp svneol=native#text/plain
 packages/nodejs/nodejsnet.pp svneol=native#text/plain
 packages/nodejs/nodejsonoff.pas -text
+packages/nodejs/nodejsspidevice.pas -text
 packages/nodejs/nodejsurl.pp svneol=native#text/plain
 packages/pushjs/pushjs.js -text
 packages/pushjs/pushjs.pas svneol=native#text/plain
