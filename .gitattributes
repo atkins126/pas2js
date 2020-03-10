@@ -417,6 +417,8 @@ packages/rtl/webbluetooth.pas svneol=native#text/plain
 packages/rtl/webgl.pas svneol=native#text/plain
 packages/rtl/webrouter.pp svneol=native#text/plain
 packages/rtl/websvg.pas svneol=native#text/plain
+packages/webwidget/dbhtmlwidgets.pp svneol=native#text/plain
+packages/webwidget/dbwebwidget.pp svneol=native#text/plain
 packages/webwidget/htmlwidgets.pp svneol=native#text/plain
 packages/webwidget/lazwebwidgets.lpk -text
 packages/webwidget/lazwebwidgets.pas svneol=native#text/plain
