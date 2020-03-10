@@ -421,6 +421,8 @@ packages/webwidget/htmlwidgets.pp svneol=native#text/plain
 packages/webwidget/lazwebwidgets.lpk -text
 packages/webwidget/lazwebwidgets.pas svneol=native#text/plain
 packages/webwidget/tests/btnrun.pp svneol=native#text/plain
+packages/webwidget/tests/tcdbhtmlwidgets.pp svneol=native#text/plain
+packages/webwidget/tests/tcdbwidgets.pp svneol=native#text/plain
 packages/webwidget/tests/tchtmlwidgets.pp svneol=native#text/plain
 packages/webwidget/tests/tcwidget.pp svneol=native#text/plain
 packages/webwidget/tests/testwidgets.html -text
