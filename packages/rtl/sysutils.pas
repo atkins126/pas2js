@@ -64,9 +64,6 @@ type
     FNodeJSError: TJSError;
     {$endif}
   public
-    class var
-      LogMessageOnCreate : Boolean;
-  Public
     constructor Create(const Msg: String); reintroduce;
     constructor CreateFmt(const Msg: string; const Args: array of jsvalue);
     constructor CreateHelp(const Msg: String; AHelpContext: Integer);
@@ -267,8 +264,8 @@ const
   // The below values are the safe limits, within every step exists.
   // Since currency is a double it can take much larger values, but the result
   // may differ from Delphi/FPC
-  MaxCurrency: Currency =  900719925474.0991; // fpc: 922337203685477.5807;
-  MinCurrency: Currency = -900719925474.0991; // fpc: -922337203685477.5808;
+  MaxCurrency: Currency =  450359962737.0495; // fpc: 922337203685477.5807;
+  MinCurrency: Currency = -450359962737.0496; // fpc: -922337203685477.5808;
 
 Type
   TFloatFormat = (ffFixed,ffGeneral,ffExponent,ffNumber,ffCurrency);
@@ -467,7 +464,6 @@ type
     procedure SetTimePMString(const Value: string);
     procedure SetTimeSeparator(const Value: char);
   public
-    class constructor Init;
     Property ShortMonthNames : TMonthNames Read GetShortMonthNames Write SetShortMonthNames;
     Property LongMonthNames : TMonthNames Read GetLongMonthNames Write SetLongMonthNames;
     Property ShortDayNames : TDayNames Read GetShortDayNames Write SetShortDayNames;
@@ -625,8 +621,6 @@ function GUIDToString(const guid: TGuid): string;
 function IsEqualGUID(const guid1, guid2: TGuid): Boolean;
 function GuidCase(const guid: TGuid; const List: array of TGuid): Integer;
 Function CreateGUID(out GUID : TGUID) : Integer;
-
-Function EncodeHTMLEntities (S : String) : String;
 
 implementation
 
@@ -1633,8 +1627,6 @@ Begin
   if (Result<>'') and (Result[1]=' ') then
     Delete(Result,1,1);
   P:=Pos('.',Result);
-  if (P<=0) then
-    P:=Length(Result)+1;
   Result:=ReplaceDecimalSep(Result,DS);
   Dec(P,3);
   if (TS<>'') and (TS<>#0) then
@@ -2114,8 +2106,6 @@ begin
   {$ifdef nodejs}
   FNodeJSError:=TJSError.new;
   {$endif}
-  if LogMessageOnCreate then
-    Writeln('Created exception ',ClassName,' with message: ',Msg);
 end;
 
 constructor Exception.CreateFmt(const Msg: string; const Args: array of jsvalue
@@ -2145,7 +2135,7 @@ begin
 end;
 
 Const
-  RESpecials = '([\$\+\[\]\(\)\\\.\*\^])';
+  RESpecials = '([\+\[\]\(\)\\\.\*])';
 
 function StringReplace(aOriginal, aSearch, aReplace: string;
   Flags: TStringReplaceFlags): String;
@@ -2988,12 +2978,12 @@ var
          allowedchars:=DecimalSeparator+' ';
          if Separator<>#0 then
            allowedchars:=allowedchars+Separator;
-         while (Cur < Len) and (Pos(S[Cur + 1],AllowedChars)=0)
+         while (Cur < Len -1) and (Pos(S[Cur + 1],AllowedChars)=0)
            and (Pos(S[Cur + 1],Digits)=0) do Inc(Cur);
          ElemLen := 1 + Cur - OffSet;
-//         writeln('  S[Offset] = ',S[Offset], ' S[Cur] = ',S[Cur],' ElemLen = ',ElemLen,' -> ', S[1+Offset], ElemLen);
-//         writeln('  Cur = ',Cur, ', S =',S);
-         AmPmStr := Copy(S,OffSet, ElemLen);
+         // writeln('  S[Offset] = ',S[1+Offset], ' S[Cur] = ',S[Cur],' ElemLen = ',ElemLen,' -> ', S[1+Offset], ElemLen);
+         // writeln('  Cur = ',Cur, 'S =',S);
+         AmPmStr := Copy(S,1+OffSet, ElemLen);
 
          // writeln('AmPmStr = ',ampmstr,' (',length(ampmstr),')');
          //We must compare to TimeAMString before hardcoded 'AM' for delphi compatibility
@@ -3876,7 +3866,7 @@ function StrToInt64Def(const S: String; ADefault: NativeLargeInt
 
 
 begin
-  if not TryStrToInt64(S,Result) then
+  if TryStrToInt64(S,Result) then
     Result:=ADefault;
 end;
 
@@ -4168,11 +4158,6 @@ begin
   SysUtils.TimeSeparator := Value;
 end;
 
-class constructor TFormatSettings.Init;
-begin
-  FormatSettings := TFormatSettings.Create;
-end;
-
 { ---------------------------------------------------------------------
   FileNames
   ---------------------------------------------------------------------}
@@ -4431,17 +4416,9 @@ begin
     Result := '';
 end;
 
-Function EncodeHTMLEntities (S : String) : String;
 
-begin
-  Result:='';
-  if S='' then exit;
-  asm
-   return S.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-     return '&#'+i.charCodeAt(0)+';';
-   });
-  end;
-end;
+initialization
+  FormatSettings := TFormatSettings.Create;
 
 end.
 
