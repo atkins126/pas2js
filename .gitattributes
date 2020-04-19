@@ -114,6 +114,9 @@ demo/hotreload/hotreload.lpr svneol=native#text/plain
 demo/hotreload/server.lpi svneol=native#text/plain
 demo/hotreload/server.lpr svneol=native#text/plain
 demo/hotreload/status.json -text
+demo/jitsimeet/demojitsimeet.lpi svneol=native#text/plain
+demo/jitsimeet/demojitsimeet.lpr svneol=native#text/plain
+demo/jitsimeet/index.html -text
 demo/jquery/demoadd.html -text
 demo/jquery/demoadd.lpi svneol=native#text/plain
 demo/jquery/demoadd.pas svneol=native#text/plain
@@ -126,6 +129,10 @@ demo/jspdf/basic.lpi svneol=native#text/plain
 demo/jspdf/basic.lpr svneol=native#text/plain
 demo/nodehttpserver/nodehttpdemo.lpi svneol=native#text/plain
 demo/nodehttpserver/nodehttpdemo.lpr svneol=native#text/plain
+demo/opentok/css/app.css -text
+demo/opentok/demoopentok.lpi svneol=native#text/plain
+demo/opentok/demoopentok.lpr svneol=native#text/plain
+demo/opentok/index.html -text
 demo/pacman/audio/die.mp3 -text
 demo/pacman/audio/eatghost.mp3 -text
 demo/pacman/audio/eating.mp3 -text
@@ -370,6 +377,7 @@ packages/fpcunit/plaintestreport.pas svneol=native#text/plain
 packages/fpcunit/testdecorator.pas svneol=native#text/plain
 packages/fpcunit/testregistry.pas svneol=native#text/plain
 packages/fullcalendar/libfullcalendar.pp svneol=native#text/plain
+packages/jitsimeet/libjitsimeet.pp svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/node.fs.pas -text
 packages/nodejs/node.http.pas svneol=native#text/plain
@@ -377,6 +385,7 @@ packages/nodejs/node.net.pas svneol=native#text/plain
 packages/nodejs/node.onoff.pas -text
 packages/nodejs/node.spidevice.pas -text
 packages/nodejs/node.url.pas svneol=native#text/plain
+packages/opentok/libopentok.pas svneol=native#text/plain
 packages/pushjs/pushjs.js -text
 packages/pushjs/pushjs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
