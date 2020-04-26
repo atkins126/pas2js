@@ -448,7 +448,6 @@ test/tcstream.pp svneol=native#text/plain
 test/tcstreaming.pp svneol=native#text/plain
 test/tcstringhelp.pp svneol=native#text/plain
 test/tcsyshelpers.pp svneol=native#text/plain
-test/testcomps.pp svneol=native#text/plain
 test/testrtl.html -text
 test/testrtl.lpi svneol=native#text/plain
 test/testrtl.lpr svneol=native#text/plain
