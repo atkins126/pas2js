@@ -20,7 +20,7 @@ unit TestRegistry;
 interface
 
 uses
-  FPCUnit, TestDecorator;
+  Classes, FPCUnit, TestDecorator;
 
 type
   TTestDecoratorClass = class of TTestDecorator;

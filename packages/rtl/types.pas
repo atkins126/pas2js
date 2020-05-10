@@ -25,8 +25,6 @@ type
   TStringDynArray = array of String;
   TDoubleDynArray = array of Double;
   TJSValueDynArray = array of JSValue;
-  TObjectDynArray = array of TObject;
-  TByteDynArray = array of Byte;
 
   TDuplicates = (dupIgnore, dupAccept, dupError);
 

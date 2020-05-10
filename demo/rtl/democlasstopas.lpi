@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <ProjectOptions>
+  <ProjectOptions BuildModesCount="1">
     <Version Value="12"/>
     <General>
       <Flags>
@@ -9,11 +9,12 @@
         <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
       <Title Value="democlasstopas"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Count="1">
+    <BuildModes>
       <Item1 Name="default" Default="True"/>
     </BuildModes>
     <PublishOptions>
