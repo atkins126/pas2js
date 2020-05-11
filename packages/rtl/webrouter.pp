@@ -18,8 +18,7 @@
 }
 
 {$mode objfpc}
-// Define this to output some debugging output
-{ $DEFINE DEBUGROUTER }
+
 unit webrouter;
 
 interface
@@ -226,7 +225,7 @@ Type
     Procedure CheckDuplicate(APattern : String; isDefault : Boolean);
     // Actually route request. Override this for customized behaviour.
     function DoRouteRequest(ARoute : TRoute; Const AURL : String; AParams : TStrings) : TRoute; virtual;
-    function DoRouteRequest(AURL : String; DoPush : Boolean = False) : TRoute;
+    function DoRouteRequest(AURL : String) : TRoute;
   Public
     Constructor Create(AOwner: TComponent); override;
     Destructor Destroy; override;
@@ -254,15 +253,13 @@ Type
     function FindHTTPRoute(const Path: String; Params: TStrings): TRoute;
     function GetRoute(const Path: String; Params: TStrings): TRoute;
     // Do actual routing. Exceptions raised will not be caught.
-    // If DoPush is true, the URL will be pushed on the browser history. If False, the route is simply activated.
-    Function RouteRequest(Const ARouteURL : String; DoPush : Boolean = False) : TRoute;
+    // This bypasses the history mechanism.
+    Function RouteRequest(Const ARouteURL : String) : TRoute;
     // Extract request path from URL. By default, returns the URL
     function GetRequestPath(const URL: String): String; virtual;
-    // Examine the URL hash and route the request. Returns the route. Use when arriving on a page do handle the initial route
-    Function RouteFromURL : String;
     // Navigation. These are easy-access methods for history.
     function GetCurrentLocation: String;
-    // These use the history mechanism
+    // These pass by the history mechanism
     Function Push (location: TRawLocation) : TTransitionResult;
     Function Replace (location: TRawLocation) : TTransitionResult;
     function Go(N: integer): TTransitionResult;
@@ -615,13 +612,10 @@ function TRouter.DoRouteRequest(ARoute: TRoute; const AURL: String;
   AParams: TStrings): TRoute;
 begin
   Result:=aRoute;
-  if Assigned(Result) then
-    Result.HandleRequest(Self,aURL,AParams)
-  else
-    Raise EHTTPRoute.CreateFmt('No route for URL: %s',[aURL]);
+  Result.HandleRequest(Self,aURL,AParams);
 end;
 
-function TRouter.DoRouteRequest(AURL: String; DoPush : Boolean = False): TRoute;
+function TRouter.DoRouteRequest(AURL: String): TRoute;
 
 Var
   APath : String;
@@ -632,10 +626,7 @@ begin
   Params:=TStringList.Create;
   try
     Result:=GetRoute(APath,Params);
-    if DoPush then
-      Push(aURL)
-    else
-      Result:=DoRouteRequest(Result,aPath,Params);
+    Result:=DoRouteRequest(Result,aPath,Params);
   finally
     Params.Free;
   end;
@@ -646,19 +637,9 @@ begin
   Result:=SanitizeRoute(URL);
 end;
 
-function TRouter.RouteFromURL: String;
-
-begin
-  // Result:=Copy(window.location.hash,2,Length(window.location.hash)-1);
-  // Writeln('Curr ', GetCurrentLocation,' route : ',Result);
-  Result:=GetCurrentLocation;
-  if (Result<>'') then
-    Router.RouteRequest(Result,true);
-end;
-
 function TRouter.GetCurrentLocation: String;
 begin
-  Result:=History.GetCurrentLocation;
+
 end;
 
 function TRouter.Push(location: TRawLocation): TTransitionResult;
@@ -813,7 +794,7 @@ begin
     Raise EHTTPRoute.Create('Not found');
 end;
 
-function TRouter.RouteRequest(const ARouteURL: String; DoPush: Boolean): TRoute;
+function TRouter.RouteRequest(const ARouteURL: String): TRoute;
 
 Var
   AURL : String;
@@ -822,7 +803,7 @@ begin
   AURL:=ARouteURL;
   If Assigned(FBeforeRequest) then
     FBeforeRequest(Self,AURL);
-  Result:=DoRouteRequest(AURL,DoPush);
+  Result:=DoRouteRequest(AURL);
   If Assigned(FAfterRequest) then
     FAfterRequest(Self,AURL);
 end;
@@ -893,7 +874,7 @@ Function TRoute.MatchPattern(Const Path : String; L : TStrings) : Boolean;
   var
     P: Integer;
   begin
-    {$IFDEF DEBUGROUTER}Writeln('ExtractNextPathLevel >:',Aleft,' (',aLvl,') ',aRight);{$ENDIF}
+    Writeln('ExtractNextPathLevel >:',Aleft,' (',aLvl,') ',aRight);
     if (ALvl<>ADelim) then
       begin
       ALeft:=ALeft+ALvl;
@@ -908,7 +889,7 @@ Function TRoute.MatchPattern(Const Path : String; L : TStrings) : Boolean;
       P:=Length(ARight)+1;
     ALvl:=Copy(ARight,1,P-1);
     ARight:=Copy(ARight,P,MaxInt);
-    {$IFDEF DEBUGROUTER} Writeln('ExtractNextPathLevel <:',Aleft,' (',aLvl,') ',aRight);{$ENDIF}
+    Writeln('ExtractNextPathLevel <:',Aleft,' (',aLvl,') ',aRight);
   end;
 
   procedure ExtractPrevPathLevel(var ALeft: string;
@@ -916,7 +897,7 @@ Function TRoute.MatchPattern(Const Path : String; L : TStrings) : Boolean;
   var
     P,L: Integer;
   begin
-    {$IFDEF DEBUGROUTER}Writeln('ExtractPrevPathLevel >:',Aleft,' (',aLvl,') ',aRight);{$ENDIF}
+    Writeln('ExtractPrevPathLevel >:',Aleft,' (',aLvl,') ',aRight);
     if (ALvl<>ADelim) then
       begin
       ARight:=ALvl+ARight;
@@ -930,7 +911,7 @@ Function TRoute.MatchPattern(Const Path : String; L : TStrings) : Boolean;
     P:=RPos(ADelim,ALeft);
     ALvl:=Copy(ALeft,P+1,MaxInt);
     ALeft:=Copy(ALeft,1,P);
-    {$IFDEF DEBUGROUTER} Writeln('ExtractPrevPathLevel <:',Aleft,' (',aLvl,') ',aRight);{$ENDIF}
+    Writeln('ExtractPrevPathLevel <:',Aleft,' (',aLvl,') ',aRight);
   end;
 
   Procedure AddParam(aName,AValue : String);
@@ -963,12 +944,12 @@ begin
   VVal := '/'; // init value is '/', not ''
   VRightPat := APattern;
   VRightVal := APathInfo;
-  {$IFDEF DEBUGROUTER}Writeln('Check match on ',URLPattern);{$ENDIF}
+  Writeln('Check match on ',URLPattern);
   repeat
     // Extract next part
     ExtractNextPathLevel(VLeftPat, VPat, VRightPat);
     ExtractNextPathLevel(VLeftVal, VVal, VRightVal);
-      {$IFDEF DEBUGROUTER}Writeln('Pat: ',VPat,' Val: ',VVal);{$ENDIF}
+    Writeln('Pat: ',VPat,' Val: ',VVal);
     if StartsWith(':',VPat) then
       AddParam(Copy(VPat,2,Maxint),VVal)
     else

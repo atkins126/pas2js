@@ -235,7 +235,7 @@ begin
   I:=aBatch.List.Count-1;
   While BatchOK and (I>=0) do
     begin
-    BatchOK:=aBatch.List[I].ResolveStatus in [rsResolved,rsResolveFailed];
+    BatchOK:=aBatch.List[I].Status in [usResolved,usResolveFailed];
     Dec(I);
     end;
   If BatchOK and Assigned(aBatch.OnResolve) then
@@ -273,7 +273,6 @@ begin
     end;
     R.FXHR.open(Method,URL);
     R.FXHR.setRequestHeader('content-type','application/json');
-    Connection.SetupRequest(R.FXHR); 
     if R.Status in [usInserted,usModified] then
       R.FXHR.Send(TJSJSON.Stringify(R.Data))
     else

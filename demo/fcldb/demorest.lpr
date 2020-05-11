@@ -185,7 +185,7 @@ Var
   e : TJSElement;
 
 begin
-  e:=TJSElement(aEvent.target);
+  e:=aEvent.target;
   While Assigned(e) and Not SameText(e.nodeName,'tr') do
     e:=e.parentElement;
   if Not Assigned(E) then exit;
