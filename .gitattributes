@@ -74,6 +74,9 @@ demo/dynload/myformdep2.pp svneol=native#text/plain
 demo/dynload/testloader.html -text
 demo/dynload/testloader.lpi svneol=native#text/plain
 demo/dynload/testloader.lpr svneol=native#text/plain
+demo/errorhandler/errordemo.lpi svneol=native#text/plain
+demo/errorhandler/errordemo.lpr svneol=native#text/plain
+demo/errorhandler/index.html -text
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
