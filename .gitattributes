@@ -4,6 +4,18 @@
 /README.txt svneol=native#text/plain
 compiler/packages/compat/pascodegen.pp svneol=native#text/plain
 demo/Makefile svneol=native#text/plain
+demo/asyncawait/description.txt svneol=native#text/plain
+demo/asyncawait/fpc.png -text svneol=unset#image/png
+demo/asyncawait/manualpromise.html -text
+demo/asyncawait/manualpromise.lpi svneol=native#text/plain
+demo/asyncawait/manualpromise.lpr svneol=native#text/plain
+demo/asyncawait/pas2js.png -text svneol=unset#image/png
+demo/asyncawait/tryfetch.html -text
+demo/asyncawait/tryfetch.lpi svneol=native#text/plain
+demo/asyncawait/tryfetch.lpr svneol=native#text/plain
+demo/asyncawait/trymany.html -text
+demo/asyncawait/trymany.lpi svneol=native#text/plain
+demo/asyncawait/trymany.lpr svneol=native#text/plain
 demo/bootstrap/bootstraptable.html -text
 demo/bootstrap/countries.json -text
 demo/bootstrap/demobootstraptable.lpi svneol=native#text/plain
