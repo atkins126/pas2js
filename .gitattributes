@@ -459,6 +459,7 @@ packages/webwidget/webwidget.pas svneol=native#text/plain
 scripts/buildpas2js -text
 test/frmrtlrun.pp svneol=native#text/plain
 test/tccompstreaming.pp svneol=native#text/plain
+test/tcgenarrayhelper.pas svneol=native#text/plain
 test/tcstream.pp svneol=native#text/plain
 test/tcstreaming.pp svneol=native#text/plain
 test/tcstringhelp.pp svneol=native#text/plain
