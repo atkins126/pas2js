@@ -442,6 +442,7 @@ packages/rtl/webgl.pas svneol=native#text/plain
 packages/rtl/webrouter.pp svneol=native#text/plain
 packages/rtl/webrtc.pas svneol=native#text/plain
 packages/rtl/websvg.pas svneol=native#text/plain
+packages/rtl/webutils.pas svneol=native#text/plain
 packages/webwidget/dbhtmlwidgets.pp svneol=native#text/plain
 packages/webwidget/dbwebwidget.pp svneol=native#text/plain
 packages/webwidget/htmlwidgets.pp svneol=native#text/plain
