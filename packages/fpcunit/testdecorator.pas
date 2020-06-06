@@ -20,7 +20,7 @@ unit TestDecorator;
 interface
 
 uses
-  SysUtils, FPCUnit;
+  Classes, SysUtils, FPCUnit;
 
 type
 

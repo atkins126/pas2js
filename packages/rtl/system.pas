@@ -50,13 +50,6 @@ const
                                Base types
 *****************************************************************************}
 type
-  Int8 = ShortInt;
-  UInt8 = Byte;
-  Int16 = SmallInt;
-  UInt16 = Word;
-  Int32 = Longint;
-  UInt32 = LongWord;
-
   Integer = LongInt;
   Cardinal = LongWord;
   DWord = LongWord;
@@ -66,7 +59,6 @@ type
   PtrUInt = NativeUInt;
   ValSInt = NativeInt;
   ValUInt = NativeUInt;
-  CodePointer = Pointer;
   ValReal = Double;
   Real = type Double;
   Extended = type Double;
@@ -74,7 +66,6 @@ type
   TDateTime = type double;
   TTime = type TDateTime;
   TDate = type TDateTime;
-
 
   Int64 = type NativeInt unimplemented; // only 53 bits at runtime
   UInt64 = type NativeUInt unimplemented; // only 52 bits at runtime
@@ -92,11 +83,6 @@ type
   TDynArrayIndex = NativeInt;
   TTextLineBreakStyle = (tlbsLF,tlbsCRLF,tlbsCR);
 
-  TCompareOption = ({coLingIgnoreCase, coLingIgnoreDiacritic, }coIgnoreCase{,
-                    coIgnoreKanaType, coIgnoreNonSpace, coIgnoreSymbols, coIgnoreWidth,
-                    coLingCasing, coDigitAsNumbers, coStringSort});
-  TCompareOptions = set of TCompareOption;
-
 {*****************************************************************************
             TObject, TClass, IUnknown, IInterface, TInterfacedObject
 *****************************************************************************}
@@ -109,18 +95,10 @@ type
   end;
   TGUIDString = type string;
 
-  PMethod = ^TMethod;
-  TMethod = record
-    Code : CodePointer;
-    Data : Pointer;
-  end;
-
   TClass = class of TObject;
 
   { TObject }
 
-  {$DispatchField Msg} // enable checking message methods for record field name "Msg"
-  {$DispatchStrField MsgStr}
   TObject = class
   private
     class var FClassName: String; external name '$classname';
@@ -143,19 +121,9 @@ type
     class property ClassParent: TClass read FClassParent;
     class function InheritsFrom(aClass: TClass): boolean; assembler;
     class property UnitName: String read FUnitName;
-    Class function MethodName(aCode : Pointer) : String;
-    Class function MethodAddress(aName : String) : Pointer;
-    Class Function FieldAddress(aName : String) : Pointer;
-    Class Function ClassInfo : Pointer;
 
     procedure AfterConstruction; virtual;
     procedure BeforeDestruction; virtual;
-
-    // message handling routines
-    procedure Dispatch(var aMessage); virtual;
-    procedure DispatchStr(var aMessage); virtual;
-    procedure DefaultHandler(var aMessage); virtual;
-    procedure DefaultHandlerStr(var aMessage); virtual;
 
     function GetInterface(const iid: TGuid; out obj): boolean;
     function GetInterface(const iidstr: String; out obj): boolean; inline;
@@ -165,12 +133,6 @@ type
     function Equals(Obj: TObject): boolean; virtual;
     function ToString: String; virtual;
   end;
-
-  { TCustomAttribute - base class of all user defined attributes. }
-
-  TCustomAttribute = class
-  end;
-  TCustomAttributeArray = array of TCustomAttribute;
 
 const
   { IInterface }
@@ -359,13 +321,12 @@ const
 function Int(const A: Double): double;
 function Copy(const S: string; Index, Size: Integer): String; assembler; overload;
 function Copy(const S: string; Index: Integer): String; assembler; overload;
-procedure Delete(var S: String; Index, Size: Integer); overload;
+procedure Delete(var S: String; Index, Size: Integer); assembler; overload;
 function Pos(const Search, InString: String): Integer; assembler; overload;
 function Pos(const Search, InString: String; StartAt : Integer): Integer; assembler; overload;
 procedure Insert(const Insertion: String; var Target: String; Index: Integer); overload;
 function upcase(c : char) : char; assembler;
 function HexStr(Val: NativeInt; cnt: byte): string; external name 'rtl.hexStr'; overload;
-function binstr(val : NativeUInt; cnt : byte) : string;
 
 procedure val(const S: String; out NI : NativeInt; out Code: Integer); overload;
 procedure val(const S: String; out NI : NativeUInt; out Code: Integer); overload;
@@ -427,9 +388,7 @@ type
 var
   JSArguments: TJSArguments; external name 'arguments';
 
-function isNumber(const v: JSValue): boolean; external name 'rtl.isNumber';
-function isObject(const v: JSValue): boolean; external name 'rtl.isObject'; // true if not null and a JS Object
-function isString(const v: JSValue): boolean; external name 'rtl.isString';
+// function parseInt(s: String; Radix: NativeInt): NativeInt; external name 'parseInt'; // may result NaN
 function isNaN(i: JSValue): boolean; external name 'isNaN'; // may result NaN
 
 // needed by ClassNameIs, the real SameText is in SysUtils
@@ -716,18 +675,6 @@ begin
     Code:=1;
 end;
 
-function binstr(val : NativeUInt;cnt : byte) : string;
-var
-  i : Integer;
-begin
-  SetLength(Result,cnt);
-  for i:=cnt downto 1 do
-   begin
-     Result[i]:=char(48+val and 1);
-     val:=val shr 1;
-   end;
-end;
-
 function upcase(c : char) : char; assembler;
 asm
   return c.toUpperCase();
@@ -862,96 +809,6 @@ asm
   return (aClass!=null) && ((this==aClass) || aClass.isPrototypeOf(this));
 end;
 
-
-Class function TObject.MethodName(aCode : Pointer) : String;
-
-begin
-  Result:='';
-  if aCode=Nil then
-    exit;
-asm
-  if (typeof(aCode)!=='function') return "";
-  var i = 0;
-  var TI = this.$rtti;
-  if (rtl.isObject(aCode.scope)){
-    // callback
-    if (typeof aCode.fn === "string") return aCode.fn;
-    aCode = aCode.fn;
-  }
-  // Not a callback, check rtti
-  while ((Result === "") && (TI != null)) {
-    i = 0;
-    while ((Result === "") && (i < TI.methods.length)) {
-      if (this[TI.getMethod(i).name] === aCode)
-        Result=TI.getMethod(i).name;
-      i += 1;
-    };
-    if (Result === "") TI = TI.ancestor;
-  };
-  return Result;
-end;
-end;
-
-Class function TObject.MethodAddress(aName : String) : Pointer;
-
-// We must do this in asm, because the typinfo unit is not available.
-begin
-  Result:=Nil;
-  if AName='' then
-    exit;
-asm
-  var i = 0;
-  var TI = this.$rtti;
-  var N = "";
-  var MN = "";
-  N = aName.toLowerCase();
-  while ((MN === "") && (TI != null)) {
-    i = 0;
-    while ((MN === "") && (i < TI.methods.length)) {
-      if (TI.getMethod(i).name.toLowerCase() === N) MN = TI.getMethod(i).name;
-      i += 1;
-    };
-    if (MN === "") TI = TI.ancestor;
-  };
-  if (MN !== "") Result = this[MN];
-  return Result;
-end;
-end;
-
-class function TObject.FieldAddress(aName: String): Pointer;
-
-begin
-  Result:=Nil;
-  if aName='' then exit;
-  asm
-    var aClass = null;
-    var i = 0;
-    var ClassTI = null;
-    var myName = aName.toLowerCase();
-    var MemberTI = null;
-    aClass = this.$class;
-    while (aClass !== null) {
-      ClassTI = aClass.$rtti;
-      for (var $l1 = 0, $end2 = ClassTI.fields.length - 1; $l1 <= $end2; $l1++) {
-        i = $l1;
-        MemberTI = ClassTI.getField(i);
-        if (MemberTI.name.toLowerCase() === myName) {
-           return MemberTI;
-        };
-      };
-      aClass = aClass.$ancestor ? aClass.$ancestor : null;
-    };
-  end;
-end;
-
-Class Function TObject.ClassInfo : Pointer;
-
-begin
-  // This works different from FPC/Delphi.
-  // We get the actual type info.
-  Result:=TypeInfo(Self);
-end;
-
 procedure TObject.AfterConstruction;
 begin
 
@@ -960,66 +817,6 @@ end;
 procedure TObject.BeforeDestruction;
 begin
 
-end;
-
-procedure TObject.Dispatch(var aMessage);
-// aMessage is a record with an integer field 'Msg'
-var
-  aClass: TClass;
-  Msg: TJSObj absolute aMessage;
-  Id: jsvalue;
-begin
-  if not isObject(Msg) then exit;
-  Id:=Msg['Msg'];
-  if not isNumber(Id) then exit;
-  aClass:=ClassType;
-  while aClass<>nil do
-    begin
-    asm
-      var Handlers = aClass.$msgint;
-      if (rtl.isObject(Handlers) && Handlers.hasOwnProperty(Id)){
-        this[Handlers[Id]](aMessage);
-        return;
-      }
-    end;
-    aClass:=aClass.ClassParent;
-    end;
-  DefaultHandler(aMessage);
-end;
-
-procedure TObject.DispatchStr(var aMessage);
-// aMessage is a record with a string field 'MsgStr'
-var
-  aClass: TClass;
-  Msg: TJSObj absolute aMessage;
-  Id: jsvalue;
-begin
-  if not isObject(Msg) then exit;
-  Id:=Msg['MsgStr'];
-  if not isString(Id) then exit;
-  aClass:=ClassType;
-  while (aClass<>Nil) do
-    begin
-    asm
-      var Handlers = aClass.$msgstr;
-      if (rtl.isObject(Handlers) && Handlers.hasOwnProperty(Id)){
-        this[Handlers[Id]](aMessage);
-        return;
-      }
-    end;
-    aClass:=aClass.ClassParent;
-    end;
-  DefaultHandlerStr(aMessage);
-end;
-
-procedure TObject.DefaultHandler(var aMessage);
-begin
-  if jsvalue(TMethod(aMessage)) then ;
-end;
-
-procedure TObject.DefaultHandlerStr(var aMessage);
-begin
-  if jsvalue(TMethod(aMessage)) then ;
 end;
 
 function TObject.GetInterface(const iid: TGuid; out obj): boolean;
