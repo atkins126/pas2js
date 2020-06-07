@@ -473,4 +473,5 @@ test/testcomps.pp svneol=native#text/plain
 test/testrtl.html -text
 test/testrtl.lpi svneol=native#text/plain
 test/testrtl.lpr svneol=native#text/plain
+test/tohelper.inc svneol=native#text/plain
 utils/createconfig.pp svneol=native#text/plain
