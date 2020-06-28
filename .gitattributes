@@ -89,6 +89,9 @@ demo/dynload/testloader.lpr svneol=native#text/plain
 demo/errorhandler/errordemo.lpi svneol=native#text/plain
 demo/errorhandler/errordemo.lpr svneol=native#text/plain
 demo/errorhandler/index.html -text
+demo/extend_jsclass/ExtendJSFunctionClass1.html svneol=native#text/plain
+demo/extend_jsclass/ExtendJSFunctionClass1.lpi svneol=native#text/plain
+demo/extend_jsclass/ExtendJSFunctionClass1.lpr svneol=native#text/plain
 demo/fcldb/countries-1.json -text
 demo/fcldb/countries-2.json -text
 demo/fcldb/countries-3.json -text
