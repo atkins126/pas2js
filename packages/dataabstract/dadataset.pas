@@ -23,35 +23,6 @@ Type
   EDADataset = Class(EDatabaseError);
   TDAConnection = Class;
 
-  { TDAWhereClauseBuilder }
-
-  TDAWhereClauseBuilder = class
-  public
-    class function NewBinaryExpression(aLeft, aRight: TDAExpression; anOp: TDABinaryOperator): TDAExpression;overload;
-    class function NewBinaryExpression(aLeft: TDAExpression; anOp: TDABinaryOperator;const aValue: JSValue): TDAExpression;overload;
-    class function NewBinaryExpression(aLeft: TDAExpression; anOp: TDABinaryOperator;const aValue: JSValue; aType: TDADataType): TDAExpression;overload;
-    class function NewBinaryExpression(const aTableName,aFieldName: string; anOp: TDABinaryOperator; const aJSValue: JSValue; aType: TDADataType): TDAExpression; overload;
-    class function NewBinaryExpression(const aTableName,aFieldName: string; anOp: TDABinaryOperator; const aJSValue: JSValue): TDAExpression; overload;
-    class function NewBinaryExpression(const aTableName,aFieldName: string; const aParameterName: string; aParameterType: TDADataType; anOp: TDABinaryOperator): TDAExpression; overload;
-    class function NewBinaryExpressionList(const aExpressions: array of TDAExpression; anOp: TDABinaryOperator): TDAExpression;
-    class function NewUnaryExpression(anExpression: TDAExpression; anOp: TDAUnaryOperator): TDAExpression;
-    class function NewConstant(const aValue: jsValue): TDAExpression; overload;
-    class function NewConstant(const aValue: jsValue; aType: TDADataType): TDAExpression; overload;
-    class function NewList(const aValues: array of TDAExpression): TDAExpression;
-    class function NewParameter(const aParameterName: string; aParameterType: TDADataType = datUnknown): TDAExpression;
-    class function NewField(const aTableName,aFieldName: string): TDAExpression;
-    class function NewNull: TDAExpression;
-    class function NewIsNotNull: TDAExpression; overload;
-    class function NewIsNotNull(const aTableName,aFieldName: string): TDAExpression; overload;
-    class function NewMacro(const aName: string): TDAExpression; overload;
-    class function NewMacro(const aName: string; const aValues: array of TDAExpression): TDAExpression; overload;
-    class function NewBetweenExpression(aExpression, aLower, aUpper: TDAExpression): TDAExpression; overload;
-    class function NewBetweenExpression(const aExprTableName, aExprFieldName: string; aLower, aUpper: TDAExpression): TDAExpression; overload;
-    class function NewBetweenExpression(const aExprTableName, aExprFieldName: string; aLowerValue, aUpperValue: JSValue; aValuesDataType: TDADataType): TDAExpression; overload;
-    class function GetWhereClause (aExpression : TDAExpression) : String;
-  end;
-
-
   { TDADataset }
 
   TDADataset = class(TBaseJSONDataset)
@@ -60,7 +31,6 @@ Type
     FTableName: String;
     FDAConnection: TDAConnection;
     FWhereClause: String;
-    FWhereClauseBuilder : TDAWhereClauseBuilder;
     function DataTypeToFieldType(s: String): TFieldType;
     procedure SetParams(AValue: TParams);
   Protected
@@ -68,12 +38,7 @@ Type
   Public
     constructor create(aOwner : TComponent); override;
     Destructor Destroy; override;
-    function ConvertToDateTime(aField : TField; aValue : JSValue; ARaiseException : Boolean) : TDateTime; override;
-    function ConvertDateTimeToNative(aField : TField; aValue : TDateTime) : JSValue; override;
     function DoGetDataProxy: TDataProxy; override;
-    Function ParamByName(Const aName : string) : TParam;
-    Function FindParam(Const aName : string) : TParam;
-    Property WhereClauseBuilder : TDAWhereClauseBuilder Read FWhereClauseBuilder;
     // DA is index based. So create array field mapper.
     function CreateFieldMapper : TJSONFieldMapper; override;
     Procedure CreateFieldDefs(a : TJSArray);
@@ -82,8 +47,6 @@ Type
     Property Params : TParams Read FParams Write SetParams;
     Property WhereClause : String Read FWhereClause Write FWhereClause;
   end;
-
-
 
   TDADataRequest = Class(TDataRequest)
   Public
@@ -190,159 +153,6 @@ Type
 implementation
 
 uses strutils, sysutils;
-
-resourcestring
-  SErrInvalidDate = '%s is not a valid date value for %s';
-
-{ TDAWhereClauseBuilder }
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(aLeft, aRight: TDAExpression; anOp: TDABinaryOperator): TDAExpression;
-begin
-  Result:=TDABinaryExpression.New(aLeft,aRight,BinaryOperatorNames[anOp]);
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(aLeft: TDAExpression; anOp: TDABinaryOperator; const aValue: JSValue
-  ): TDAExpression;
-begin
-  Result:=TDABinaryExpression.New(aLeft,NewConstant(aValue),BinaryOperatorNames[anOp]);
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(aLeft: TDAExpression; anOp: TDABinaryOperator; const aValue: JSValue;
-  aType: TDADataType): TDAExpression;
-begin
-  Result:=TDABinaryExpression.New(aLeft,NewConstant(aValue,aType),BinaryOperatorNames[anOp]);
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(const aTableName, aFieldName: string; anOp: TDABinaryOperator;
-  const aJSValue: JSValue; aType: TDADataType): TDAExpression;
-
-begin
-  Result:=TDABinaryExpression.New(NewField(aTableName,aFieldName),NewConstant(aJSValue,aType),BinaryOperatorNames[anOp])
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(const aTableName, aFieldName: string; anOp: TDABinaryOperator;
-  const aJSValue: JSValue): TDAExpression;
-
-begin
-  Result:=TDABinaryExpression.New(NewField(aTableName,aFieldName),NewConstant(aJSValue),BinaryOperatorNames[anOp])
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpression(const aTableName, aFieldName: string; const aParameterName: string;
-  aParameterType: TDADataType; anOp: TDABinaryOperator): TDAExpression;
-
-begin
-  Result:=TDABinaryExpression.New(NewField(aTableName,aFieldName),NewParameter(aParameterName,aParameterType),BinaryOperatorNames[anOp])
-end;
-
-class function TDAWhereClauseBuilder.NewBinaryExpressionList(const aExpressions: array of TDAExpression; anOp: TDABinaryOperator): TDAExpression;
-
-var
-  i, len: integer;
-begin
-  len:=Length(aExpressions);
-  Case Len of
-    0: Result:=nil;
-    1: Result:=aExpressions[0];
-  else
-    Result:=NewBinaryExpression(aExpressions[0],aExpressions[1],anOp);
-    for i := 2 to Len-1 do
-      Result:=NewBinaryExpression(Result,aExpressions[i],anOp);
-  end;
-end;
-
-class function TDAWhereClauseBuilder.NewUnaryExpression(anExpression: TDAExpression; anOp: TDAUnaryOperator): TDAExpression;
-begin
-  Result:=TDAUnaryExpression.New(anExpression,UnaryOperatorNames[anOp]);
-end;
-
-class function TDAWhereClauseBuilder.NewConstant(const aValue: jsValue): TDAExpression;
-begin
-  Result:=TDAConstantExpression.New(JSValueToDataTypeName(aValue),aValue,Ord(IsNull(aValue)));
-end;
-
-class function TDAWhereClauseBuilder.NewConstant(const aValue: jsValue; aType: TDADataType): TDAExpression;
-begin
-  Result:=TDAConstantExpression.New(JSValueToDataTypeName(aValue),aValue,Ord(IsNull(aValue)));
-end;
-
-class function TDAWhereClauseBuilder.NewList(const aValues: array of TDAExpression): TDAExpression;
-begin
-  Result:=TDAListExpression.New(aValues);
-end;
-
-class function TDAWhereClauseBuilder.NewParameter(const aParameterName: string; aParameterType: TDADataType): TDAExpression;
-begin
-  Result:=TDAParameterExpression.New(aParameterName,DataTypeNames[aParameterType],0);
-end;
-
-class function TDAWhereClauseBuilder.NewField(const aTableName, aFieldName: string): TDAExpression;
-var
-  aName : String;
-
-begin
-  aName:=aFieldName;
-  if aTableName<>'' then
-    aName:=aTableName+'.'+aName;
-  Result:=TDAFieldExpression.New(aName);
-end;
-
-class function TDAWhereClauseBuilder.NewNull: TDAExpression;
-begin
-  Result:=TDANullExpression.new;
-end;
-
-class function TDAWhereClauseBuilder.NewIsNotNull: TDAExpression;
-begin
-  Result:=NewUnaryExpression(TDANullExpression.new,duoNot);
-end;
-
-class function TDAWhereClauseBuilder.NewIsNotNull(const aTableName, aFieldName: string): TDAExpression;
-begin
-  Result:=NewBinaryExpression(NewField(aTableName,aFieldName),NewIsNotNull,dboEqual);
-end;
-
-class function TDAWhereClauseBuilder.NewMacro(const aName: string): TDAExpression;
-begin
-  Result:=TDAMacroExpression.New(aName);
-end;
-
-class function TDAWhereClauseBuilder.NewMacro(const aName: string; const aValues: array of TDAExpression): TDAExpression;
-begin
-  Result:=TDAMacroExpression.New(aName); // ??
-end;
-
-class function TDAWhereClauseBuilder.NewBetweenExpression(aExpression, aLower, aUpper: TDAExpression): TDAExpression;
-begin
-  Result:=TDABetweenExpression.New(aExpression,aLower,aUpper);
-end;
-
-class function TDAWhereClauseBuilder.NewBetweenExpression(const aExprTableName, aExprFieldName: string; aLower,
-  aUpper: TDAExpression): TDAExpression;
-begin
-  Result:=NewBetweenExpression(NewField(aExprTableName,aExprFieldName),aLower,aUpper);
-end;
-
-class function TDAWhereClauseBuilder.NewBetweenExpression(const aExprTableName, aExprFieldName: string; aLowerValue,
-  aUpperValue: JSValue; aValuesDataType: TDADataType): TDAExpression;
-begin
-  Result:=NewBetweenExpression(NewField(aExprTableName,aExprFieldName),
-                               NewConstant(aLowerValue,aValuesDataType),
-                               NewConstant(aUpperValue,aValuesDataType));
-end;
-
-class function TDAWhereClauseBuilder.GetWhereClause(aExpression: TDAExpression): String;
-
-Var
-  DW : TDADynamicWhere;
-
-begin
-  DW:=TDADynamicWhere.New(aExpression);
-  try
-    Result:=dw.toXml
-  Finally
-    DW:=Nil;
-  end;
-end;
 
 { TDAConnection }
 
@@ -536,10 +346,6 @@ begin
     case LowerCase(s) of
      'widestring' : result:=ftString;
      'currency' : result:=ftFloat;
-     'decimal' : result:=ftFloat;
-     'smallint' : result:=ftInteger;
-    else
-      writeln('Unknown field type:',S)
     end;
 end;
 
@@ -547,23 +353,6 @@ procedure TDADataset.SetParams(AValue: TParams);
 begin
   if FParams=AValue then Exit;
   FParams.Assign(AValue);
-end;
-
-function TDADataset.ConvertToDateTime(aField: TField; aValue: JSValue; ARaiseException: Boolean): TDateTime;
-begin
-  Result:=0;
-  if isDate(aValue) then
-    Result:=JSDateToDateTime(TJSDate(aValue))
-  else if isString(aValue) then
-    Result:=Inherited  ConvertToDateTime(afield,aValue,ARaiseException)
-  else
-    if aRaiseException then
-      DatabaseErrorFmt(SErrInvalidDate,[String(aValue),aField.FieldName],Self);
-end;
-
-function TDADataset.ConvertDateTimeToNative(aField: TField; aValue: TDateTime): JSValue;
-begin
-  Result:=DateTimeToJSDate(aValue);
 end;
 
 procedure TDADataset.MetaDataToFieldDefs;
@@ -580,27 +369,15 @@ begin
   TDADataProxy(Result).Connection:=DAConnection;
 end;
 
-function TDADataset.ParamByName(const aName: string): TParam;
-begin
-  Result:=FParams.ParamByname(aName);
-end;
-
-function TDADataset.FindParam(const aName: string): TParam;
-begin
-  Result:=FParams.FindParam(aName);
-end;
-
 constructor TDADataset.create(aOwner: TComponent);
 begin
   inherited;
   DataProxy:=nil;
   FParams:=TParams.Create(Self);
-  FWhereClauseBuilder:=TDAWhereClauseBuilder.Create;
 end;
 
 destructor TDADataset.Destroy;
 begin
-  FreeAndNil(FWhereClauseBuilder);
   FreeAndNil(FParams);
   Inherited;
 end;
@@ -624,15 +401,7 @@ begin
     fn:=F.Name;
     // The JSON streamer does not create all properties :(
     if FO.hasOwnProperty('size') then
-      begin
-
-      if isString(FO['size']) then
-        fs:=StrToInt(String(FO['size']))
-      else if isNumber(FO['size']) then
-        fs:=F.Size
-      else
-        fs:=0;
-      end
+      fs:=F.Size
     else
       fs:=0;
     if FO.hasOwnProperty('type') then
@@ -646,7 +415,6 @@ begin
     Ft:=DataTypeToFieldType(dT);
     if (ft=ftBlob) and (fs=0) then
       fs:=1;
-//    Writeln('FieldDef : ',fn,', ',ft,', ',fs);
     FieldDefs.Add(fn,ft,fs,Req);
     end;
 end;
@@ -671,7 +439,6 @@ begin
     begin
     Result[i].Name:=DADS.Params[i].Name;
     Result[i].Value:=DADS.Params[i].Value;
-//    Writeln('Set param ',Result[i].Name,' to ',Result[i].Value);
     end;
 end;
 
@@ -694,9 +461,7 @@ begin
   DADS:=aRequest.Dataset as TDADataset;
   R:=aRequest as TDADatarequest;
   if (Connection=Nil) then
-    Raise EDADataset.Create(DADS.Name+': Cannot get data without connection');
-  if (DADS.TableName='') then
-    Raise EDADataset.Create(DADS.Name+': Cannot get data without tablename');
+    Raise EDADataset.Create(Name+': Cannot get data without connection');
   DS:=Connection.EnsureDataservice;
   TN:=TDAStringArray.New;
   TN.fromObject([DADS.TableName]);
@@ -785,10 +550,9 @@ begin
   DT:=TDADataTable.New;
   DT.name:=DADS.TableName;
   DStr.ReadDataset(DT);
-  // Writeln('Row count : ',Length(DT.rows));
-  Rows:=TJSArray.New(Length(DT.rows));
+  Rows:=TJSArray.New;
   for I:=0 to length(DT.rows)-1 do
-     Rows[i]:=DT.Rows[i].__newValues;
+     Rows.Push(DT.Rows[i].__newValues);
   (Dataset as TDADataset).Metadata:=New(['fields',TJSArray(DT.Fields)]);
   // Data:=aJSON['data'];
   (Dataset as TDADataset).Rows:=Rows;
