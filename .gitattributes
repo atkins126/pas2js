@@ -384,6 +384,7 @@ packages/fcl-db/pas2js_fcldb.pas svneol=native#text/plain
 packages/fcl-db/restconnection.pas svneol=native#text/plain
 packages/fcl-db/sqldbrestdataset.pp svneol=native#text/plain
 packages/fcl-json/fpjson.pp svneol=native#text/plain
+packages/fcl-json/fpjsonjs.pas -text
 packages/fpcunit/browsertestrunner.pas svneol=native#text/plain
 packages/fpcunit/consoletestrunner.pas svneol=native#text/plain
 packages/fpcunit/fpcunit.css -text
