@@ -234,6 +234,7 @@ demo/router/histsrv.js -text
 demo/router/histsrv2.js -text
 demo/rtl/README.md -text
 demo/rtl/ajax.pas svneol=native#text/plain
+demo/rtl/bytes.txt svneol=native#text/plain
 demo/rtl/countries.json -text
 demo/rtl/demo_njsprocess.pas svneol=native#text/plain
 demo/rtl/demoajax.html -text
@@ -266,6 +267,9 @@ demo/rtl/demojsarray.pas svneol=native#text/plain
 demo/rtl/demojsdataarray.pas svneol=native#text/plain
 demo/rtl/demojsregexp.pas svneol=native#text/plain
 demo/rtl/demojsstring.pas svneol=native#text/plain
+demo/rtl/demoloadstreamfromurl.html -text
+demo/rtl/demoloadstreamfromurl.lpi svneol=native#text/plain
+demo/rtl/demoloadstreamfromurl.lpr svneol=native#text/plain
 demo/rtl/demonew.html -text
 demo/rtl/demonew.pas svneol=native#text/plain
 demo/rtl/demonodecmdlineoptions.lpi svneol=native#text/plain
