@@ -409,6 +409,7 @@ packages/opentok/libopentok.pas svneol=native#text/plain
 packages/pushjs/pushjs.js -text
 packages/pushjs/pushjs.pas svneol=native#text/plain
 packages/rtl/README.txt svneol=native#text/plain
+packages/rtl/Rtl.BrowserLoadHelper.pas svneol=native#text/plain
 packages/rtl/Rtl.ScriptLoader.pas svneol=native#text/plain
 packages/rtl/Rtl.TemplateLoader.pas svneol=native#text/plain
 packages/rtl/Rtl.UnitLoader.pas svneol=native#text/plain
