@@ -121,9 +121,15 @@ demo/fpreport/frmmain.pp svneol=native#text/plain
 demo/fpreport/reportdemo.html -text
 demo/fpreport/reportdemo.lpi svneol=native#text/plain
 demo/fpreport/reportdemo.lpr svneol=native#text/plain
-demo/fullcalendar/demofullcalendar.html -text
 demo/fullcalendar/demofullcalendar.lpi svneol=native#text/plain
 demo/fullcalendar/demofullcalendar.lpr svneol=native#text/plain
+demo/fullcalendar/demofullcalendar4.html -text
+demo/fullcalendar/demofullcalendar4.lpi svneol=native#text/plain
+demo/fullcalendar/demofullcalendar4.lpr svneol=native#text/plain
+demo/fullcalendar/demofullcalendar5.html -text
+demo/fullcalendar/demofullcalendar5.lpi svneol=native#text/plain
+demo/fullcalendar/demofullcalendar5.lpr svneol=native#text/plain
+demo/fullcalendar/index.html -text
 demo/hotreload/dirwatch.pp svneol=native#text/plain
 demo/hotreload/hotreload.cfg -text
 demo/hotreload/hotreload.html -text
