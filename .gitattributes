@@ -404,7 +404,8 @@ packages/fpcunit/htmltestreport.pp svneol=native#text/plain
 packages/fpcunit/plaintestreport.pas svneol=native#text/plain
 packages/fpcunit/testdecorator.pas svneol=native#text/plain
 packages/fpcunit/testregistry.pas svneol=native#text/plain
-packages/fullcalendar/libfullcalendar.pp svneol=native#text/plain
+packages/fullcalendar/libfullcalendar4.pp svneol=native#text/plain
+packages/fullcalendar/libfullcalendar5.pp svneol=native#text/plain
 packages/jitsimeet/libjitsimeet.pp svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
 packages/nodejs/node.fs.pas -text
