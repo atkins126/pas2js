@@ -151,6 +151,15 @@ demo/jquery/demoaddclass2.pas svneol=native#text/plain
 demo/jspdf/basic.html -text
 demo/jspdf/basic.lpi svneol=native#text/plain
 demo/jspdf/basic.lpr svneol=native#text/plain
+demo/kurento/css/kurento.css -text
+demo/kurento/helloworld.html -text
+demo/kurento/helloworld.lpi svneol=native#text/plain
+demo/kurento/helloworld.lpr svneol=native#text/plain
+demo/kurento/img/kurento.png -text svneol=unset#image/png
+demo/kurento/img/spinner.gif -text
+demo/kurento/img/webrtc.png -text svneol=unset#image/png
+demo/kurento/js/kurento-client.js -text
+demo/kurento/js/kurento-utils.js -text
 demo/nodehttpserver/nodehttpdemo.lpi svneol=native#text/plain
 demo/nodehttpserver/nodehttpdemo.lpr svneol=native#text/plain
 demo/opentok/css/app.css -text
@@ -414,6 +423,7 @@ packages/fullcalendar/libfullcalendar4.pp svneol=native#text/plain
 packages/fullcalendar/libfullcalendar5.pp svneol=native#text/plain
 packages/jitsimeet/libjitsimeet.pp svneol=native#text/plain
 packages/jspdf/jspdf.pas svneol=native#text/plain
+packages/kurento/libkurento.pp svneol=native#text/plain
 packages/nodejs/node.fs.pas -text
 packages/nodejs/node.http.pas svneol=native#text/plain
 packages/nodejs/node.net.pas svneol=native#text/plain
