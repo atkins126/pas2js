@@ -382,6 +382,14 @@ demo/webwidget/nativedesign/nativedesigner.lpi svneol=native#text/plain
 demo/webwidget/nativedesign/nativedesigner.lpr svneol=native#text/plain
 demo/webwidget/nativedesign/nativedesigner.res -text
 demo/webwidget/nativedesign/webideintf.pp svneol=native#text/plain
+demo/webwidget/widgets/css/widgetsdemo.css -text
+demo/webwidget/widgets/democonsts.pp svneol=native#text/plain
+demo/webwidget/widgets/demohtmlwidgets.pp svneol=native#text/plain
+demo/webwidget/widgets/frmdemo.pp svneol=native#text/plain
+demo/webwidget/widgets/webwidgetsdemo.lpi svneol=native#text/plain
+demo/webwidget/widgets/webwidgetsdemo.lpr svneol=native#text/plain
+demo/webwidget/widgets/widgetdemo.pp svneol=native#text/plain
+demo/webwidget/widgets/widgetsdemo.html -text
 /fpmake.pp svneol=native#text/plain
 packages/bootstrap/bootstrapwidgets.pp svneol=native#text/plain
 packages/bootstrap/libbootstrap.pp svneol=native#text/plain
