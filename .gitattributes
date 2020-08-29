@@ -506,4 +506,9 @@ test/testrtl.html -text
 test/testrtl.lpi svneol=native#text/plain
 test/testrtl.lpr svneol=native#text/plain
 test/tohelper.inc svneol=native#text/plain
+tools/html2form/formgen.pas svneol=native#text/plain
+tools/html2form/htmltoform.lpi svneol=native#text/plain
+tools/html2form/htmltoform.lpr svneol=native#text/plain
+tools/html2form/webcore.map -text
+tools/html2form/webcoreformgen.pp svneol=native#text/plain
 utils/createconfig.pp svneol=native#text/plain
