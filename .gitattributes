@@ -488,6 +488,7 @@ packages/webwidget/dbwebwidget.pp svneol=native#text/plain
 packages/webwidget/htmlwidgets.pp svneol=native#text/plain
 packages/webwidget/lazwebwidgets.lpk -text
 packages/webwidget/lazwebwidgets.pas svneol=native#text/plain
+packages/webwidget/propertygridwidget.pp svneol=native#text/plain
 packages/webwidget/tests/btnrun.pp svneol=native#text/plain
 packages/webwidget/tests/tcdbhtmlwidgets.pp svneol=native#text/plain
 packages/webwidget/tests/tcdbwidgets.pp svneol=native#text/plain
