@@ -393,6 +393,7 @@ demo/webwidget/widgets/demobootstrap.pp svneol=native#text/plain
 demo/webwidget/widgets/democonsts.pp svneol=native#text/plain
 demo/webwidget/widgets/demohtmlwidgets.pp svneol=native#text/plain
 demo/webwidget/widgets/frmdemo.pp svneol=native#text/plain
+demo/webwidget/widgets/images/freePascal.jpeg -text
 demo/webwidget/widgets/webwidgetsdemo.lpi svneol=native#text/plain
 demo/webwidget/widgets/webwidgetsdemo.lpr svneol=native#text/plain
 demo/webwidget/widgets/widgetdemo.pp svneol=native#text/plain
