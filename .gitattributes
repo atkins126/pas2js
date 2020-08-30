@@ -329,6 +329,12 @@ demo/translate/translate_object.lpr svneol=native#text/plain
 demo/translate/translate_url.html -text
 demo/translate/translate_url.lpi svneol=native#text/plain
 demo/translate/translate_url.lpr svneol=native#text/plain
+demo/uselibpas2js/Readme.txt svneol=native#text/plain
+demo/uselibpas2js/examples/TestUnitAlias1.pas svneol=native#text/plain
+demo/uselibpas2js/libpas2jsintf.pas svneol=native#text/plain
+demo/uselibpas2js/pas2js_unitalias.lpi svneol=native#text/plain
+demo/uselibpas2js/pas2js_unitalias.lpr svneol=native#text/plain
+demo/uselibpas2js/pas2jscompilerproxy.pas svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpi svneol=native#text/plain
 demo/webcompiler/demowebcompiler.lpr svneol=native#text/plain
 demo/webcompiler/run.html -text
