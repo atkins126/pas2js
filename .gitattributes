@@ -383,6 +383,7 @@ demo/webwidget/nativedesign/nativedesigner.lpr svneol=native#text/plain
 demo/webwidget/nativedesign/nativedesigner.res -text
 demo/webwidget/nativedesign/webideintf.pp svneol=native#text/plain
 demo/webwidget/widgets/css/widgetsdemo.css -text
+demo/webwidget/widgets/demobootstrap.pp svneol=native#text/plain
 demo/webwidget/widgets/democonsts.pp svneol=native#text/plain
 demo/webwidget/widgets/demohtmlwidgets.pp svneol=native#text/plain
 demo/webwidget/widgets/frmdemo.pp svneol=native#text/plain
