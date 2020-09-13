@@ -75,6 +75,7 @@ demo/chartjs/demotime.lpr svneol=native#text/plain
 demo/chartjs/index.html -text
 demo/dataabstract/DataAbstract.js -text
 demo/dataabstract/DataAbstract4_intf.js -text
+demo/dataabstract/README.txt svneol=native#text/plain
 demo/dataabstract/RemObjectsSDK.js -text
 demo/dataabstract/sampleda.html -text
 demo/dataabstract/sampleda.lpi svneol=native#text/plain
