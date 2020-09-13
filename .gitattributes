@@ -79,6 +79,9 @@ demo/dataabstract/RemObjectsSDK.js -text
 demo/dataabstract/sampleda.html -text
 demo/dataabstract/sampleda.lpi svneol=native#text/plain
 demo/dataabstract/sampleda.lpr svneol=native#text/plain
+demo/dataabstract/sampledarw.html -text
+demo/dataabstract/sampledarw.lpi svneol=native#text/plain
+demo/dataabstract/sampledarw.lpr svneol=native#text/plain
 demo/dynload/FormFactory.pas svneol=native#text/plain
 demo/dynload/MyFormDep.pas svneol=native#text/plain
 demo/dynload/myform.pp svneol=native#text/plain
