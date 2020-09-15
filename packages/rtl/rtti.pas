@@ -150,6 +150,8 @@ type
     function GetMethodKind: TMethodKind;
     function GetReturnType: TRttiType;
   public
+    function Invoke(ThisArg: TJSObject; const AArgs: TJSValueDynArray): TValue;
+
     property MethodTypeInfo: TTypeMemberMethod read GetMethodTypeInfo;
     property ReturnType: TRttiType read GetReturnType;
     property MethodKind: TMethodKind read GetMethodKind;
@@ -988,6 +990,12 @@ end;
 function TRttiMethod.GetReturnType: TRttiType;
 begin
   Result := GRttiContext.GetType(MethodTypeInfo.ProcSig.ResultType);
+end;
+
+function TRttiMethod.Invoke(ThisArg: TJSObject; const AArgs: TJSValueDynArray): TValue;
+begin
+  if IsConstructor then
+    Result := TValue.FromJSValue(TJSFunction(ThisArg['$create']).apply(ThisArg, [Name]));
 end;
 
 { TRttiProperty }
