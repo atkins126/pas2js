@@ -177,8 +177,12 @@ type
     function GetVisibility: TMemberVisibility; override;
   public
     constructor Create(AParent: TRttiType; ATypeInfo: TTypeMember);
+
     function GetValue(Instance: TObject): TValue;
-    procedure SetValue(Instance: TObject; const AValue: TValue);
+
+    procedure SetValue(Instance: TObject; const AValue: JSValue); overload;
+    procedure SetValue(Instance: TObject; const AValue: TValue); overload;
+
     property PropertyTypeInfo: TTypeMemberProperty read GetPropertyTypeInfo;
     property PropertyType: TRttiType read GetPropertyType;
     property IsReadable: boolean read GetIsReadable;
@@ -233,6 +237,8 @@ type
     property TypeKind: TTypeKind read GetTypeKind;
     //property TypeSize: integer read GetTypeSize;
   end;
+
+  TRttiTypeClass = class of TRttiType;
 
   { TRttiStructuredType }
 
@@ -313,6 +319,20 @@ type
     generic class function GetValue<T>(const AValue: String): T;
   end;
 
+  { TRttiDynamicArrayType }
+
+  TRttiDynamicArrayType = class(TRttiType)
+  private
+    function GetDynArrayTypeInfo: TTypeInfoDynArray;
+    function GetElementType: TRttiType;
+  public
+    constructor Create(ATypeInfo: PTypeInfo);
+
+    property DynArrayTypeInfo: TTypeInfoDynArray read GetDynArrayTypeInfo;
+    property ElementType: TRttiType read GetElementType;
+  end;
+
+
   EInvoke = EJS;
 
   TVirtualInterfaceInvokeEvent = function(const aMethodName: string;
@@ -360,6 +380,26 @@ asm
     IntfType = Object.getPrototypeOf(IntfType);
   } while(IntfType!=null);
   IntfVar.set(i);
+end;
+
+{ TRttiDynamicArrayType }
+
+function TRttiDynamicArrayType.GetDynArrayTypeInfo: TTypeInfoDynArray;
+begin
+  Result := TTypeInfoDynArray(FTypeInfo);
+end;
+
+function TRttiDynamicArrayType.GetElementType: TRttiType;
+begin
+  Result := GRttiContext.GetType(DynArrayTypeInfo.ElType);
+end;
+
+constructor TRttiDynamicArrayType.Create(ATypeInfo: PTypeInfo);
+begin
+  if not (TTypeInfo(ATypeInfo) is TTypeInfoDynArray) then
+    raise EInvalidCast.Create('');
+
+  inherited Create(ATypeInfo);
 end;
 
 { TRttiOrdinalType }
@@ -745,25 +785,49 @@ end;
 
 function TRttiStructuredType.GetProperty(const AName: string): TRttiProperty;
 var
-  A: Integer;
+  Prop: TRttiProperty;
 
 begin
   Result := nil;
 
-  for A := 0 to Pred(StructTypeInfo.PropCount) do
-    if StructTypeInfo.GetProp(A).Name = AName then
-      Exit(TRttiProperty.Create(Self, StructTypeInfo.GetProp(A)));
+  for Prop in GetDeclaredProperties do
+    if Prop.Name = AName then
+      Exit(Prop);
 end;
 
 function TRttiStructuredType.GetDeclaredProperties: TRttiPropertyArray;
 var
-  A: Integer;
+  A, PropertyCount: Integer;
+
+  BaseClass: TRttiStructuredType;
 
 begin
-  SetLength(Result, StructTypeInfo.PropCount);
+  BaseClass := Self;
+  PropertyCount := 0;
 
-  for A := 0 to Pred(StructTypeInfo.PropCount) do
-    Result[A] := TRttiProperty.Create(Self, StructTypeInfo.GetProp(A));
+  while Assigned(BaseClass) do
+  begin
+    Inc(PropertyCount, BaseClass.StructTypeInfo.PropCount);
+
+    BaseClass := BaseClass.GetAncestor;
+  end;
+
+  SetLength(Result, PropertyCount);
+
+  BaseClass := Self;
+  PropertyCount := 0;
+
+  while Assigned(BaseClass) do
+  begin
+    for A := 0 to Pred(BaseClass.StructTypeInfo.PropCount) do
+    begin
+      Result[PropertyCount] := TRttiProperty.Create(BaseClass, BaseClass.StructTypeInfo.GetProp(A));
+
+      Inc(PropertyCount);
+    end;
+
+    BaseClass := BaseClass.GetAncestor;
+  end;
 end;
 
 function TRttiStructuredType.GetStructTypeInfo: TTypeInfoStruct;
@@ -864,6 +928,29 @@ end;
 
 function TRTTIContext.GetType(aTypeInfo: PTypeInfo): TRTTIType;
 var
+  RttiTypeClass: array[TTypeKind] of TRttiTypeClass = (
+    nil, // tkUnknown
+    TRttiOrdinalType, // tkInteger
+    TRttiOrdinalType, // tkChar
+    TRttiType, // tkString
+    TRttiEnumerationType, // tkEnumeration
+    TRttiType, // tkSet
+    TRttiOrdinalType, // tkDouble
+    TRttiEnumerationType, // tkBool
+    TRttiType, // tkProcVar
+    nil, // tkMethod
+    TRttiType, // tkArray
+    TRttiDynamicArrayType, // tkDynArray
+    TRttiType, // tkRecord
+    TRttiInstanceType, // tkClass
+    TRttiType, // tkClassRef
+    TRttiType, // tkPointer
+    TRttiType, // tkJSValue
+    TRttiType, // tkRefToProcVar
+    TRttiInterfaceType, // tkInterface
+    TRttiType, // tkHelper
+    TRttiInstanceType // tkExtClass
+  );
   t: TTypeinfo absolute aTypeInfo;
   Name: String;
 begin
@@ -875,11 +962,7 @@ begin
     Result:=TRttiType(FPool[Name])
   else
     begin
-      case T.Kind of
-        tkClass: Result:=TRttiInstanceType.Create(aTypeInfo);
-        tkInterface: Result:=TRttiInterfaceType.Create(aTypeInfo);
-        else Result:=TRttiType.Create(aTypeInfo);
-      end;
+    Result := RttiTypeClass[T.Kind].Create(aTypeInfo);
 
     FPool[Name]:=Result;
     end;
@@ -1016,6 +1099,11 @@ end;
 function TRttiProperty.GetValue(Instance: TObject): TValue;
 begin
   Result := TValue.FromJSValue(GetJSValueProp(Instance, PropertyTypeInfo));
+end;
+
+procedure TRttiProperty.SetValue(Instance: TObject; const AValue: JSValue);
+begin
+  SetJSValueProp(Instance, PropertyTypeInfo, AValue);
 end;
 
 procedure TRttiProperty.SetValue(Instance: TObject; const AValue: TValue);
